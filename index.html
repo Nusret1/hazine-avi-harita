@@ -203,7 +203,7 @@ function drawStations(){
   });
   if(!fitted && pts.length){fit(); fitted=true;}
 }
-function fit(){ if(!G.istasyonlar.length) return; const b=L.latLngBounds(G.istasyonlar.map(s=>[s.lat,s.lng])); if(G.baslangicNoktasi) b.extend([G.baslangicNoktasi.lat,G.baslangicNoktasi.lng]); map.fitBounds(b,{paddingTopLeft:[110,120],paddingBottomRight:[110,110],maxZoom:19}); }
+function fit(){ if(!G.istasyonlar.length) return; const b=L.latLngBounds(G.istasyonlar.map(s=>[s.lat,s.lng])); if(G.baslangicNoktasi) b.extend([G.baslangicNoktasi.lat,G.baslangicNoktasi.lng]); const sz=map.getSize(), pd=Math.round(Math.min(sz.x,sz.y)*.14); map.fitBounds(b,{paddingTopLeft:[pd,pd+10],paddingBottomRight:[pd,pd],maxZoom:19}); }
 document.getElementById('bFit').onclick=fit;
 
 function anchorOf(t){ // takım pulunun duracağı yer: son açtığı istasyon
@@ -335,7 +335,7 @@ function startDemo(){
 }
 
 MODE==='canli' ? startLive() : startDemo();
-addEventListener('resize',()=>map.invalidateSize());
+let rT;addEventListener('resize',()=>{map.invalidateSize();clearTimeout(rT);rT=setTimeout(fit,300);});
 </script>
 </body>
 </html>
