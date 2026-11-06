@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hazine Avı Kullanım Kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Tek tema "gece seferi" (uygulamanın kendisiyle aynı). Solda ekran listesi, ortada telefon, sağda "bu ekranda ne yapılır". */
+:root{
+  --ink:#0B1626; --ink-2:#112036; --panel:#172A44; --panel-2:#1E3554;
+  --line:rgba(243,233,210,.12); --sand:#F3E9D2; --sand-dim:#A9A491;
+  --brass:#E2B04A; --brass-deep:#B9862A; --teal:#3FC1B0; --coral:#F07160; --ok:#62D394;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif; --body:"Manrope","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--ink);color:var(--sand);font-family:var(--body);font-size:15px;line-height:1.45;
+  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(63,193,176,.10),transparent 60%),radial-gradient(900px 500px at 0% 110%,rgba(226,176,74,.08),transparent 60%)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+.stage{display:grid;grid-template-columns:250px minmax(0,auto) minmax(240px,320px);gap:32px;justify-content:center;align-items:start;padding:28px 24px 48px;min-height:100%}
+.rail h1{font-family:var(--display);font-weight:800;font-size:19px;margin:0 0 4px;text-wrap:balance}
+.rail .sub{color:var(--sand-dim);font-size:13px;margin:0 0 16px}
+.rail h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin:18px 0 8px;font-weight:800;display:flex;gap:8px;align-items:center}
+.rail h2 i{width:8px;height:8px;border-radius:50%}
+.rail nav{display:flex;flex-direction:column;gap:2px}
+.rail nav button{background:none;border:0;text-align:left;padding:7px 10px;border-radius:8px;color:var(--sand-dim);font-size:14px;display:flex;gap:10px;align-items:center}
+.rail nav button .k{font-family:var(--mono);font-size:11px;opacity:.6;width:18px}
+.rail nav button:hover{background:var(--ink-2);color:var(--sand)}
+.rail nav button[aria-current="true"]{background:var(--panel);color:var(--sand)}
+.rail nav button[aria-current="true"] .k{color:var(--brass);opacity:1}
+
+.phone{width:390px;height:812px;border-radius:46px;background:#05090F;padding:12px;box-shadow:0 0 0 1px rgba(243,233,210,.08),0 40px 80px -20px rgba(0,0,0,.7),0 0 120px -30px rgba(63,193,176,.25);position:sticky;top:24px}
+.screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--ink);display:flex;flex-direction:column}
+.status{display:flex;justify-content:space-between;padding:14px 26px 6px;font-size:13px;font-weight:700;flex:none}
+.status .dots{display:flex;gap:5px;align-items:center}
+.status .dots i{display:block;width:16px;height:9px;border:1.5px solid var(--sand);border-radius:3px;position:relative}
+.status .dots i::after{content:"";position:absolute;inset:1px;right:4px;background:var(--sand);border-radius:1px}
+.body{flex:1;overflow-y:auto;padding:8px 20px 24px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+.notes{position:sticky;top:24px;display:grid;gap:12px}
+.notes .card{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:18px}
+.notes h3{font-family:var(--display);font-size:15px;margin:0 0 8px;font-weight:700}
+.notes p{margin:0 0 10px;color:var(--sand-dim);font-size:14px}
+.notes ol,.notes ul{margin:0;padding-left:20px;color:var(--sand);font-size:14px;display:grid;gap:6px}
+.notes .tip{border-left:3px solid var(--teal);padding:2px 0 2px 12px;color:var(--sand-dim);font-size:13px;margin-top:12px}
+.notes .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;margin-bottom:10px}
+.tag.p{background:rgba(63,193,176,.15);color:var(--teal)} .tag.o{background:rgba(226,176,74,.15);color:var(--brass)} .tag.y{background:rgba(240,113,96,.15);color:var(--coral)}
+.roles{display:grid;gap:8px}
+.roles div{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:13px;color:var(--sand-dim)}
+.roles b{color:var(--sand)}
+
+/* ortak bileşenler (uygulamayla aynı) */
+.top{display:flex;align-items:center;gap:10px}
+.top .grow{flex:1;min-width:0}
+.iconbtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--ink-2);display:grid;place-items:center;flex:none}
+.iconbtn svg{width:20px;height:20px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:var(--ink-2);border:1px solid var(--line);font-size:13px;font-weight:700;white-space:nowrap}
+.chip .sw,.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.btn{border:0;border-radius:16px;min-height:54px;padding:12px 18px;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.btn.gold{background:linear-gradient(180deg,#F0C35E,var(--brass) 55%,var(--brass-deep));color:#1B1405}
+.btn.ghost{background:var(--ink-2);border:1px solid var(--line);color:var(--sand)}
+.btn.white{background:#fff;color:#1F1F1F}
+.btn.small{min-height:44px;font-size:14px;border-radius:12px}
+.btn[disabled]{background:var(--panel);color:var(--sand-dim)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--brass)}
+.h{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.2;margin:0;text-wrap:balance}
+.muted{color:var(--sand-dim)} .small{font-size:13px}
+label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-bottom:6px}
+.field{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:13px 14px;width:100%;color:var(--sand);font:inherit;font-size:15px}
+.field.code{font-family:var(--mono);font-size:22px;letter-spacing:.12em;text-align:center;font-weight:700}
+.row{display:flex;gap:10px} .row>*{flex:1}
+.err{background:var(--coral);color:#2A0C07;padding:14px;border-radius:14px;font-weight:700}
+.toast{position:absolute;left:16px;right:16px;bottom:22px;background:var(--sand);color:var(--ink);padding:13px 14px;border-radius:14px;font-weight:700;font-size:14px;display:flex;gap:10px;align-items:center;box-shadow:0 20px 40px -10px rgba(0,0,0,.6);animation:up .3s ease;z-index:20}
+.toast.bad{background:var(--coral);color:#2A0C07}
+.toast svg{width:20px;height:20px;flex:none}
+@keyframes up{from{transform:translateY(20px);opacity:0}}
+.serit{display:flex;gap:10px;align-items:center;padding:12px;border-radius:14px;font-size:13px;font-weight:700;width:100%;text-align:left;border:1px solid}
+.serit svg{width:20px;height:20px;flex:none}
+.serit.b{background:rgba(226,176,74,.12);border-color:rgba(226,176,74,.4)} .serit.b svg{color:var(--brass)}
+.serit.t{background:rgba(63,193,176,.12);border-color:rgba(63,193,176,.4)} .serit.t svg{color:var(--teal)}
+.serit.c{background:rgba(240,113,96,.12);border-color:rgba(240,113,96,.4)} .serit.c svg{color:var(--coral)}
+.serit.g{background:rgba(98,211,148,.12);border-color:rgba(98,211,148,.4)} .serit.g svg{color:var(--ok)}
+.seg{display:flex;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{flex:1;border:0;background:none;padding:10px;border-radius:10px;font-weight:700;font-size:13px;color:var(--sand-dim)}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--sand)}
+.lrow{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);width:100%;text-align:left}
+.lrow .grow{flex:1;min-width:0}
+.lrow small{display:block;color:var(--sand-dim);font-size:12px}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;color:var(--ink);flex:none}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px}
+.tile b{display:block;font-family:var(--display);font-size:20px}
+.tile span{font-size:12px;color:var(--sand-dim)}
+.state{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.state.ok{background:rgba(98,211,148,.15);color:var(--ok)} .state.warn{background:rgba(240,113,96,.15);color:var(--coral)} .state.done{background:rgba(226,176,74,.18);color:var(--brass)}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;border-radius:14px;background:var(--ink-2);border:1px solid var(--line);width:100%;text-align:left}
+.toggle .sw{width:48px;height:28px;border-radius:99px;background:rgba(243,233,210,.15);position:relative;flex:none}
+.toggle .sw::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:var(--sand);transition:left .2s}
+.toggle[aria-pressed="true"] .sw{background:var(--teal)} .toggle[aria-pressed="true"] .sw::after{left:23px}
+.tabbar{flex:none;display:flex;justify-content:space-around;padding:10px 8px 22px;border-top:1px solid var(--line);background:var(--ink-2)}
+.tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--sand-dim);padding:4px 10px}
+.tabbar button svg{width:22px;height:22px}
+.tabbar button[aria-current="true"]{color:var(--brass)}
+.bar{height:8px;border-radius:99px;background:var(--ink);overflow:hidden;display:flex;gap:2px}
+.bar i{flex:1;background:rgba(243,233,210,.08)} .bar i.on{background:var(--teal)}
+.act{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--ink-2);text-align:left;font-weight:700;font-size:14px}
+.act svg{width:22px;height:22px;color:var(--brass)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lg svg{display:block;width:100%;height:auto}
+.lg-anim .lg-ring{stroke-dasharray:1 1;stroke-dashoffset:1;animation:draw 1.1s .05s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lg-anim .lg-hex{animation:hexin .55s var(--d) cubic-bezier(.2,1.5,.4,1) both}
+@keyframes hexin{from{transform:scale(0) rotate(-40deg);opacity:0}}
+.lg-anim .lg-core{transform-origin:200px 200px;animation:core .8s 1.05s ease both}
+@keyframes core{from{opacity:0;transform:scale(.85)}}
+.after{animation:core .7s 1.7s ease both}
+.wordmark{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:.02em;margin:0;text-align:center;background:linear-gradient(180deg,#F7D27A,var(--brass) 60%,#A8761F);-webkit-background-clip:text;background-clip:text;color:transparent}
+.riddle{font-size:19px;line-height:1.5;font-weight:600;margin:0}
+.hint{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border-radius:14px;border:1px solid rgba(243,233,210,.25);background:transparent;width:100%;text-align:left;font-weight:700}
+.hint.open{border-color:rgba(226,176,74,.4);background:rgba(226,176,74,.08)}
+.hint .cost{font-family:var(--mono);color:var(--coral)}
+.hint svg{width:20px;height:20px;color:var(--brass);flex:none}
+.opt{height:76px;border-radius:16px;border:1.5px solid var(--line);background:var(--ink-2);font-family:var(--display);font-size:22px;font-weight:700}
+.opt.good{border-color:var(--ok);background:rgba(98,211,148,.15);color:var(--ok)} .opt.bad{border-color:var(--coral);color:var(--coral);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.cam{position:absolute;inset:0;background:radial-gradient(ellipse at 40% 60%,#3c4a3a 0%,#1d2620 40%,#0a0f0c 80%)}
+.frame{position:absolute;left:50%;top:42%;width:250px;height:250px;transform:translate(-50%,-50%)}
+.frame i{position:absolute;width:44px;height:44px;border:4px solid var(--brass)}
+.frame i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0;border-radius:6px 0 0 0}
+.frame i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0;border-radius:0 6px 0 0}
+.frame i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0;border-radius:0 0 0 6px}
+.frame i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0;border-radius:0 0 6px 0}
+.scanline{position:absolute;left:12px;right:12px;height:2px;background:var(--teal);box-shadow:0 0 18px 4px rgba(63,193,176,.6);animation:scan 2.2s ease-in-out infinite alternate}
+@keyframes scan{from{top:14px}to{top:234px}}
+.piece{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) rotate(-6deg);width:150px;height:150px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 18px 30px rgba(0,0,0,.6)}
+.piece canvas,.qrimg{width:100%;height:100%;image-rendering:pixelated;display:block}
+.camui{position:absolute;left:0;right:0;bottom:0;padding:20px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(transparent,rgba(5,9,15,.94) 30%)}
+#confetti{position:absolute;inset:0;pointer-events:none;z-index:5}
+.seal{width:150px;height:150px;margin:16px auto 0;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#F7D27A,var(--brass) 55%,#8E6418);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+.seal svg{width:70px;height:70px;color:#2A1C04}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+.ledger{display:grid;gap:8px}
+.ledger div{display:flex;justify-content:space-between}
+.ledger b{font-family:var(--mono)}
+.ledger .tot{border-top:1px solid var(--line);padding-top:8px;font-weight:800}
+.plus{color:var(--ok)} .minus{color:var(--coral)}
+.cert{background:#EDE3CB;color:#2A2010;border-radius:14px;padding:18px;text-align:center;border:5px solid var(--brass-deep)}
+.cert .t{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.06em}
+.cert .n{font-family:var(--display);font-size:26px;font-weight:700;margin:4px 0;color:#7A4E0E}
+.cert p{margin:0;font-size:12px}
+.chest .lid{transform-origin:40px 76px;animation:lid 1.1s .3s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes lid{to{transform:rotate(-28deg)}}
+.sira{display:grid;grid-template-columns:22px 12px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--ink-2)}
+.sira.me{background:rgba(226,176,74,.12);border:1px solid rgba(226,176,74,.4)}
+.qcard{background:#F6F1E4;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#2A2010}
+.qcard .s{font-family:var(--display);font-weight:800;font-size:11px;color:#7A4E0E}
+.qcard canvas{width:100px;height:100px;image-rendering:pixelated}
+.sheet{position:absolute;inset:0;background:rgba(5,9,15,.6);display:flex;align-items:flex-end;z-index:15}
+.sheet .in{background:#fff;color:#1F1F1F;width:100%;border-radius:26px 26px 0 0;padding:18px 20px 26px;display:grid;gap:14px;animation:up .25s}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.apps button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#1F1F1F}
+.apps .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff}
+.picker{position:absolute;inset:0;background:rgba(5,9,15,.65);display:grid;place-items:center;z-index:15}
+.picker .in{background:#3C4043;color:#E8EAED;border-radius:18px;width:86%;padding:20px;display:grid;gap:12px;animation:up .25s}
+.picker button{background:none;border:0;display:flex;gap:12px;align-items:center;text-align:left;color:#E8EAED;padding:6px 0}
+.stpick{display:flex;gap:8px;flex-wrap:wrap}
+.stpick button{width:52px;height:52px;border-radius:14px;border:1px solid var(--line);background:var(--ink-2);font-family:var(--display);font-weight:800;font-size:18px}
+.stpick button[aria-pressed="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.radio{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:var(--ink-2);display:grid;place-items:center;flex:none}
+.radio.on{background:var(--ok);border-color:var(--ok)}
+
+@media (max-width:1060px){
+  .stage{grid-template-columns:minmax(0,1fr);justify-items:center;padding:16px}
+  .rail,.notes{width:100%;max-width:420px}
+  .rail nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
+  .rail nav button{white-space:nowrap;background:var(--ink-2)}
+  .notes,.phone{position:static}
+}
+@media (max-width:430px){
+  .phone{width:100%;height:760px;border-radius:0;padding:0;background:none;box-shadow:none}
+  .screen{border-radius:24px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="rail">
+    <h1>Hazine Avı</h1>
+    <p class="sub">Alaşehir BİLSEM · ekran ekran kullanım kılavuzu. Ekranlara tıklayın; telefondaki düğmeler de çalışır.</p>
+    <nav id="nav0"></nav>
+    <h2><i style="background:var(--teal)"></i>Öğrenci</h2><nav id="navP"></nav>
+    <h2><i style="background:var(--brass)"></i>Öğretmen</h2><nav id="navO"></nav>
+    <h2><i style="background:var(--coral)"></i>Yönetici</h2><nav id="navY"></nav>
+  </aside>
+  <main class="phone" aria-label="Telefon önizlemesi"><div class="screen" id="screen"></div></main>
+  <aside class="notes" id="notes"></aside>
+</div>
+
+<script>
+/* ---------- ikonlar ---------- */
+const sv=(d,w=2.2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+const I={geri:sv('M15 18l-6-6 6-6'),yenile:sv('M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5'),qr:sv('M3 3h7v7h-7zM14 3h7v7h-7zM3 14h7v7h-7zM14 14h3v3M21 14v.01M14 21h7v-4'),
+tik:sv('M5 12.5l4.5 4.5L19 7',3),kilit:sv('M5 11h14v10h-14zM8 11V8a4 4 0 0 1 8 0v3'),konum:sv('M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21zM12 7a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5'),
+hop:sv('M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1zM17 9a4 4 0 0 1 0 6'),ampul:sv('M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z'),
+uyari:sv('M12 3l10 18H2zM12 10v4M12 17.5v.01',2.4),paylas:sv('M18 2a3 3 0 1 0 0 6a3 3 0 1 0 0-6M6 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6M18 16a3 3 0 1 0 0 6a3 3 0 1 0 0-6M8.6 10.5l6.8-4M8.6 13.5l6.8 4'),
+kisi:sv('M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M17 11a3 3 0 1 0 0-6M22 21v-1a5 5 0 0 0-4-4.9')};
+
+/* ---------- logo (uygulamadakiyle aynı çizim) ---------- */
+function logoSVG(anim){
+  const W='stroke="#fff" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"';
+  const B=[['#26365A','#3B5288',`<g ${W}><path d="M-7 -9 L-15 0 L-7 9 M7 -9 L15 0 L7 9"/><path d="M3 -12 L-3 12" stroke="#F0A64A"/></g>`],['#2F8A5B','#46B276',`<g ${W}><path d="M-3 -16 l6 2.2 -6.5 15 -6 -2.2z"/><path d="M-13 14h24M3 14a9 9 0 0 0 5-13M-6 5h7"/></g>`],['#1F7FA6','#2FA7CF',`<text y="5" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="12" fill="#fff">E=mc²</text>`],['#C2477F','#E2679D',`<text y="11" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="30" fill="#fff">π</text>`],['#8A744A','#B39A68',`<g ${W}><path d="M-9 14 V-7 a9 7 0 0 1 18 0 V14z"/><path d="M-4 -4h8M-4 1h6M-4 6h8M-4 10.5h4" stroke-width="2"/></g>`],['#6A54C4','#8C77EA',`<g ${W}><path d="M-4 10 V-12 L10 -15 V7"/><circle cx="-8" cy="10" r="4" fill="#fff"/><circle cx="6" cy="7" r="4" fill="#fff"/></g>`],['#3E9A3A','#5CBF4F',`<g ${W} stroke-width="2.2"><ellipse rx="16" ry="6"/><ellipse rx="16" ry="6" transform="rotate(60)"/><ellipse rx="16" ry="6" transform="rotate(-60)"/><circle r="3" fill="#fff"/></g>`],['#D38423','#F0A64A',`<g ${W}><path d="M0 -14 a14 14 0 1 0 0 28 c3 0 3-3 1-5 c-2-2 0-5 3-5 h4 a7 7 0 0 0 7-7 c0-6-7-11-15-11z"/></g>`]];
+  const hex=r=>Array.from({length:6},(_,k)=>{const a=(-90+60*k)*Math.PI/180;return (r*Math.cos(a)).toFixed(1)+','+(r*Math.sin(a)).toFixed(1)}).join(' ');
+  return `<svg viewBox="0 0 400 400" role="img" aria-label="Alaşehir Bilim ve Sanat Merkezi logosu" class="${anim?'lg-anim':''}"><defs>${B.map((b,k)=>`<linearGradient id="lg${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${b[1]}"/><stop offset="1" stop-color="${b[0]}"/></linearGradient>`).join('')}<linearGradient id="lgL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A6E06A"/><stop offset="1" stop-color="#3E9A3A"/></linearGradient><path id="lgArc" d="M 108 200 A 92 92 0 0 1 292 200"/></defs>
+  <circle class="lg-ring" cx="200" cy="200" r="152" fill="none" stroke="#E2B04A" stroke-opacity=".8" stroke-width="2.5" pathLength="1"/><circle cx="200" cy="200" r="116" fill="rgba(243,233,210,.035)" stroke="rgba(243,233,210,.18)" stroke-dasharray="1 5"/>
+  ${B.map((b,k)=>{const a=(-90+45*k)*Math.PI/180;return `<g transform="translate(${(200+152*Math.cos(a)).toFixed(1)},${(200+152*Math.sin(a)).toFixed(1)})"><g class="${anim?'lg-hex':''}" style="--d:${.25+k*.09}s"><polygon points="${hex(35)}" fill="url(#lg${k})"/><polygon points="${hex(30)}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>${b[2]}</g></g>`}).join('')}
+  <g class="lg-core"><text font-family="Unbounded" font-weight="700" font-size="12.5" letter-spacing="2.4" fill="#F3E9D2"><textPath href="#lgArc" startOffset="50%" text-anchor="middle">BİLİM VE SANAT MERKEZİ</textPath></text><g transform="translate(193,186)"><path d="M0 28 C-4 20 -10 18 -18 20 C-22 12 -32 10 -34 0 C-28 -2 -26 -8 -30 -14 C-20 -14 -16 -20 -16 -28 C-8 -24 -4 -28 0 -34 C4 -28 8 -24 16 -28 C16 -20 20 -14 30 -14 C26 -8 28 -2 34 0 C32 10 22 12 18 20 C10 18 4 20 0 28Z" fill="url(#lgL)"/><path d="M0 26 V-26 M0 12 L-24 -1 M0 12 L24 -1 M0 0 L-13 -21 M0 0 L13 -21" stroke="#2C6E2A" stroke-width="1.6" fill="none" opacity=".7"/><g fill="#8C77EA"><circle cx="30" cy="18" r="5"/><circle cx="40" cy="18" r="5"/><circle cx="35" cy="26" r="5"/><circle cx="45" cy="26" r="5" fill="#6A54C4"/><circle cx="40" cy="34" r="5" fill="#6A54C4"/></g></g><text x="200" y="250" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="25" fill="#F3E9D2">ALAŞEHİR</text><path d="M150 262 H250" stroke="#E2B04A" stroke-width="2"/><text x="200" y="284" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="13" letter-spacing="3" fill="#E2B04A">2022</text></g></svg>`;
+}
+
+/* ---------- örnek veri ---------- */
+const ST=[
+ {ad:'Okul Giriş Kapısı',b:'Her sabah yüzlerce adımı sayarım ama kendim hiç yürümem. Herkes içeri girerken beni geçer.',ip:['Okula girerken ilk geçtiğin yer.','Sağdaki demir direğin dibine bak.'],q:'Bir üzüm salkımında ilk sırada 5 tane var, her sıra 2 fazla. 3 sıranın toplamı kaç?',o:['15','19','21','23'],a:2,kod:'ALS-7Q2F-K9'},
+ {ad:'Kütüphane',b:'Yaprağım çok ama hiç ağaç değilim. Binlerce sesim var ama hep sessiz dururum.',ip:['Sessiz olman gereken oda.','Ansiklopedi rafının en alt gözü.'],q:'2, 6, 12, 20, 30 … dizisinde sıradaki sayı kaç?',o:['40','42','44','36'],a:1,kod:'ALS-M4XD-2P'},
+ {ad:'Bahçedeki Çınar',b:'Öğle vakti gölgem en kısadır, akşamüstü en uzun. Kökümü kimse görmez ama herkes altımda dinlenir.',ip:['Bahçenin en yaşlı ağacı.','Kuzeydeki bankın altına bak.'],q:'2 m çubuğun gölgesi 1 m. Aynı anda 6 m ağacın gölgesi kaç m?',o:['2','3','4','12'],a:1,kod:'ALS-9WTB-6H'},
+ {ad:'Fen Laboratuvarı',b:'Antik çağda bu şehrin adı "kardeş sevgisi" anlamına gelirdi. O adı taşıyan kapının yanında deneyler yapılır.',ip:["Alaşehir'in antik adı Philadelphia.",'Yangın dolabının arkası.'],q:'Su deniz seviyesinde kaç °C\'de kaynar?',o:['90','100','110','120'],a:1,kod:'ALS-3KVN-8R'},
+ {ad:'Hazine Sandığı',b:'Yolculuk burada biter. Bayrağın gölgesinin düştüğü yerde son parçayı bulan hazineye ulaşır.',ip:['Bayrak direğinin çevresi.','Direğin batısındaki saksı.'],q:'Beş istasyonu 40 dakikada bitirdiniz. İstasyon başına ortalama kaç dakika?',o:['6','8','10','12'],a:1,kod:'ALS-H5ZA-1C'}];
+const TK=[{n:'Zeytin Dalı',c:'#62D394',s:4,p:520,d:3},{n:'Yıldız Avcıları',c:'#3FC1B0',s:3,p:410,d:4},{n:'Kaşifler',c:'#E2B04A',s:2,p:244,d:6,me:1},{n:'Bilge Baykuşlar',c:'#F07160',s:1,p:120,d:19},{n:'Kartallar',c:'#E98AC2',s:0,p:0,d:22}];
+const RENK=['#E2B04A','#3FC1B0','#F07160','#9C8CF0','#62D394','#E98AC2'];
+let S;
+function sifirla(){S={e:'genel',solved:2,score:244,hints:{},sor:null,pick:null,tries:0,team:'Kaşifler',color:'#E2B04A',jm:0,pass:'KASIF42',open:true,kayit:false,bas:false,yayin:false,pdf:false,picker:false,
+  bekleyen:[{ad:'Ayşe Yılmaz',ep:'ayse.yilmaz@ornek.com'},{ad:'Mehmet Kaya',ep:'mehmet.kaya@ornek.com'}],onayli:[{ad:'Nusret Satar',ep:'Yönetici',sahip:1},{ad:'Zeynep Demir',ep:'zeynep.demir@ornek.com'}],
+  hedef:0,ist:2,kodYeni:null,konumVar:false,dogru:1,maks:5,mesafe:true,durum:'canli',cik:false,sil:false,kald:null,duyuru:false,toastT:null};}
+sifirla();
+
+/* ---------- ekran listesi ve kılavuz notları ---------- */
+const E=[
+ ['genel','Nasıl işler?','g'],
+ ['acilis','Açılış','p'],['katilim','Şifreyle katılma','p'],['takim','Takım seçme','p'],['harita','Hazine haritası','p'],['bilmece','Bilmece ve ipucu','p'],['tara','QR okutma','p'],['gorev','Mini görev','p'],['basari','İstasyon açıldı','p'],['yayin','Paylaşılan konum','p'],['takimim','Takımım ve çıkış','p'],['final','Hazine ve sertifika','p'],
+ ['ogiris','Öğretmen girişi','o'],['oyunlar','Oyunlarım','o'],['pano','Canlı pano','o'],['ist','İstasyonlar','o'],['duzenle','İstasyon düzenle','o'],['qr','QR kartları','o'],['konum','Konum yayınla','o'],['ayar','Oyun ayarları','o'],
+ ['yoyun','Yönetici ana ekranı','y'],['ogretmenler','Öğretmen onayı','y']];
+const N={
+ genel:['Üç rol, bir oyun','Yönetici öğretmenleri onaylar, öğretmen oyunu kurar, öğrenci şifreyle girip oynar.',['Öğretmen Google ile girer; yönetici başvurusunu onaylar.','Öğretmen oyunu kurar, istasyonları ve bilmeceleri yazar.','QR kartlarını PDF olarak basar, parçaları saklar, her yerde "Buradayım" der.','Oyun günü oyunu başlatır, katılım şifresini söyler.','Öğrenciler şifreyle girer, takım kurar, bilmeceyi çözüp QR okutur.','Öğretmen canlı panodan izler, takılana konum gönderir, oyunu bitirir.'],'Soldaki listeden bir ekran seçin. Sağda o ekranda neler yapıldığı yazar.'],
+ acilis:['Açılış','Uygulama her açıldığında Alaşehir BİLSEM logosu kendini kurar.',['Başla düğmesine bas ya da ekrana dokun.'],'Animasyon birkaç saniye sürer.'],
+ katilim:['Şifreyle katılma','Öğrenciler hesap açmaz. Öğretmenin söylediği şifre ve bir ad yeter.',['Katılım şifresini yaz (büyük-küçük harf fark etmez).','Adını veya takma adını yaz. Soyadı ve telefon yazma.','Maceraya katıl de.'],'Şifre yanlışsa ya da öğretmen katılımı kapattıysa kırmızı uyarı çıkar. Deneyin: şifreyi değiştirip katılın. Doğru şifre bu kılavuzda KASIF42.'],
+ takim:['Takım seçme','Her öğrenci kendi telefonuyla girer; aynı takımdakiler aynı haritayı görür.',['Takıma katıl: listeden takımını seç.','Yeni takım kur: ad yaz, renk seç.','Düğmeye bas.'],'Takım doluysa (öğretmenin belirlediği sınır) uyarı çıkar.'],
+ harita:['Hazine haritası','Oyunun ana ekranı. Altın tikliler açıldı, turkuaz yanıp sönen sıradaki, gri kilitliler bekliyor.',['Bilmeceyi aç ya da turkuaz daireye dokun.','Sağ üstteki yuvarlak ok: verileri yeniler.','Takım adına dokun: Takımım ekranı.'],'Öğretmenin duyurusu altın şerit, paylaştığı konum turkuaz şerit olarak üstte görünür. Takım arkadaşın istasyon açınca bildirim gelir.'],
+ bilmece:['Bilmece ve ipucu','Bilmeceyi oku, parçanın saklandığı yeri bul.',['Takılırsan İpucu 1 (−10 puan) ya da İpucu 2 (−25 puan).','İpucu iki dokunuşla açılır: ilki "Emin misin?" diye sorar.','Parçayı bulunca QR okut de.'],'Mesafe kontrolü açıksa QR\'ı parçanın 50 m yakınında okutmalısın.'],
+ tara:['QR okutma','Kamera açılır; QR kart çerçeveye girince kendiliğinden okunur.',['Kartı çerçevenin içine getir.','Doğru kartsa mini göreve geçilir.','Başka istasyonun kartıysa "Bu parça henüz senin için değil" yazar.'],'Bu kılavuzda kamera yok; alttaki iki düğmeyle iki durumu deneyebilirsiniz.'],
+ gorev:['Mini görev','Bazı istasyonlarda QR\'dan sonra kısa bir soru gelir.',['Dört seçenekten birine dokun.','Doğruysa istasyon açılır.','Yanlış cevap 5 puan götürür, tekrar denersin.'],'Soruyu öğretmen yazar; istasyonda soru yoksa bu ekran atlanır.'],
+ basari:['İstasyon açıldı','Kutlama ve puan dökümü.',['İstasyon puanı +100.','Hız bonusu: önceki istasyondan sonra 5 dakika içinde +50, 20 dakikada 0.','Sıradaki bilmece ile devam et.'],'Konumunu öğretmenin paylaştığı istasyonda hız bonusu yoktur.'],
+ yayin:['Paylaşılan konum','Öğretmen bir istasyonun yerini paylaşınca haritada turkuaz şerit çıkar; dokununca bu ekran açılır.',['Uzaklık ve yön (pusula) görünür.','Haritada yol tarifi al: telefonun harita uygulaması açılır.','Uzaklığı yenile: yürüdükçe günceller.'],'Konum izni gerekir.'],
+ takimim:['Takımım','Haritada takım adına dokununca açılır.',['İstasyon, puan ve sıra.','Üyeler ve kimin kaç istasyon açtığı.','Tüm takımların sıralaması.','En altta Oyundan çık (puan kaybolmaz).'],'Tekrar girmek için şifreyi yeniden yazmak gerekir.'],
+ final:['Hazine ve sertifika','Son istasyon açılınca sandık açılır.',['Öğrencinin adına başarı sertifikası.','Takımın puanı ve sırası.','Final sıralaması.'],'Ödül töreninde öğretmen web panosunu projeksiyona yansıtabilir.'],
+ ogiris:['Öğretmen girişi','Katılım ekranındaki "Öğretmen girişi" ile açılır.',['Google ile giriş yap: telefondaki Google hesabını seç.','İlk girişte başvurun yöneticiye gider; "onay bekliyor" yazar.','Onaylanınca aynı düğmeyle girersin.','Google kullanmak istemezsen "Hesabım yok, öğretmen olarak kaydol".'],'Deneyin: Google düğmesine basıp bir hesap seçin.'],
+ oyunlar:['Oyunlarım','Öğretmenin kurduğu oyunlar listelenir.',['Bir oyuna dokun: canlı panosu açılır.','Yeni oyun: ad yaz, Oyun oluştur.','Çıkış yap.','En altta Hesabımı sil (hesap ve yetki kalıcı silinir; oyunlar okulda kalır).'],'Her oyunun kendi katılım şifresi vardır.'],
+ pano:['Canlı pano','Oyunun anlık durumu. Altta dört sekme: Pano, İstasyonlar, QR, Ayarlar.',['Oyun hazırlıktaysa "Oyunu başlat ve katılımı aç".','Takımlar: hangi istasyonda, kaç dakikadır. 15 dakikadır ilerlemeyen kırmızı "Takıldı".','Konum yayınla, Duyuru gönder, QR kartları, Web panosu.','Son olaylar akışı.','Oyunu bitir.'],'Web panosu bağlantısını bilgisayarda açınca takımlar uydu haritasında canlı görünür.'],
+ ist:['İstasyonlar','Oyunun istasyonları sırasıyla.',['Bir istasyona dokun: düzenle.','▲▼ ile sırayı değiştir.','Sil (onay ister).','+ İstasyon ekle.'],'"Konum yok" yazan istasyonda henüz "Buradayım" denmemiş.'],
+ duzenle:['İstasyon düzenle','Bir istasyonun her şeyi tek ekranda.',['Başlık, bilmece, iki ipucu.','Mini görev (isteğe bağlı): soru, dört seçenek, doğru cevabın dairesine dokun.','Parçayı sakladığın yerde "Buradayım, konumu kaydet".','QR şifresi: yenile düğmesi yeni kod üretir; eski kart geçersiz olur.','Kaydet.'],'Konum, öğrencilere konum yayınlarken ve 50 m mesafe kontrolünde kullanılır.'],
+ qr:['QR kartları','Tüm istasyonların kartları.',['PDF oluştur ve paylaş.','Paylaş menüsünden WhatsApp, Gmail ya da Drive.','A4 sayfaya 6 kart, kesim çizgili. Lamine edip saklayın.'],'Basılı kartta istasyonun adı yazmaz, sadece numarası yazar (adı cevabı ele verirdi).'],
+ konum:['Konum yayınla','Takılan takıma ya da herkese bir istasyonun yerini gönder.',['Hangi istasyon: numarayı seç (takılan takımın istasyonu hazır seçilir).','Kime: tüm takımlar ya da tek takım.','Yayınla ve bildir.'],'İstasyonun konumu kayıtlı değilse düğme kapalıdır. Yayınlanan istasyonda hız bonusu verilmez.'],
+ ayar:['Oyun ayarları','Katılım ve kurallar.',['Katılım şifresi: yenile düğmesi yeni şifre üretir.','Katılım açık: kapalıyken doğru şifreyle de girilemez.','Mesafe kontrolü: QR yalnızca 50 m yakında kabul edilir.','Takım başına en fazla kişi.','Pano bağlantısını paylaş, oyunu başlat ya da bitir.'],'Şifreyi değiştirmek içerideki oyuncuları çıkarmaz.'],
+ yoyun:['Yönetici ana ekranı','Yönetici girince Oyunlarım ekranının üstünde altın renkli Öğretmenler kartı görünür.',['Kırmızı sayı: bekleyen başvuru.','Karta dokun: öğretmen onay ekranı.','Yönetici her öğretmenin oyununu da düzenleyebilir.'],'Yönetici tek kişidir (proje sahibi). Yönetici hesabı uygulamadan silinemez.'],
+ ogretmenler:['Öğretmen onayı','Öğretmenlere yetki verme ve geri alma.',['Bekleyen başvurular: Onayla ya da Reddet.','Onaylı öğretmenler: Yetkiyi kaldır (iki dokunuş).','Kendi yetkinizi kaldıramazsınız.'],'Onaylanan öğretmen hemen giriş yapabilir; yetkisi kaldırılan bir daha giremez.']};
+
+/* ---------- yardımcılar ---------- */
+const $=s=>document.querySelector(s);
+const st=()=>`<div class="status"><span class="num">09:41</span><span class="dots"><span style="font-size:11px">5G</span><i></i></span></div>`;
+const ustbar=(t,geri,sag='')=>`<div class="top">${geri?`<button class="iconbtn" aria-label="Geri" onclick="git('${geri}')">${I.geri}</button>`:''}<div class="grow">${t}</div>${sag}</div>`;
+const baslik=(ust,b)=>`<div><div class="eyebrow">${ust}</div><div class="h" style="font-size:19px">${b}</div></div>`;
+const puan=()=>`<span class="chip num" style="color:var(--brass)">${S.score} p</span>`;
+function bildir(m,bad){clearTimeout(S.toastT);const o=$('.toast');if(o)o.remove();const t=document.createElement('div');t.className='toast'+(bad?' bad':'');t.innerHTML=(bad?I.uyari:I.tik)+'<span>'+m+'</span>';$('#screen').appendChild(t);S.toastT=setTimeout(()=>t.remove(),2800);}
+function git(e){S.e=e;S.sor=null;S.pick=null;S.pdf=false;S.picker=false;S.cik=false;S.sil=false;S.kald=null;render();const b=$('.body');if(b)b.scrollTop=0;}
+const cur=()=>Math.min(S.solved,ST.length-1);
+function drawQR(cv,seed){const n=25,c=cv.getContext('2d');cv.width=n;cv.height=n;let h=2166136261;for(const ch of seed){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)>>>0;}const r=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return (h>>>0)/4294967296;};c.fillStyle='#fff';c.fillRect(0,0,n,n);c.fillStyle='#1B1405';const inF=(x,y)=>(x<8&&y<8)||(x>16&&y<8)||(x<8&&y>16);for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(!inF(x,y)&&r()>.52)c.fillRect(x,y,1,1);const f=(x,y)=>{c.fillRect(x,y,7,7);c.fillStyle='#fff';c.fillRect(x+1,y+1,5,5);c.fillStyle='#1B1405';c.fillRect(x+2,y+2,3,3);};f(0,0);f(18,0);f(0,18);}
+const tab=a=>`<div class="tabbar">${[['pano','Pano',I.kisi],['ist','İstasyonlar',I.konum],['qr','QR',I.qr],['ayar','Ayarlar',I.kilit]].map(t=>`<button aria-current="${a===t[0]}" onclick="git('${t[0]}')">${t[2]}${t[1]}</button>`).join('')}</div>`;
+
+function harita(){
+  const n=ST.length,P=Array.from({length:n},(_,i)=>[330*(.5+.30*Math.sin(i*1.85+.6)),460*(.90-.80*i/(n-1))]);
+  let d=`M${P[0][0]} ${P[0][1]}`;for(let i=1;i<n;i++){const a=P[i-1],b=P[i],m=(a[1]+b[1])/2;d+=` C${a[0]} ${m} ${b[0]} ${m} ${b[0]} ${b[1]}`;}
+  let g=`M${P[0][0]} ${P[0][1]}`;for(let i=1;i<Math.min(S.solved,n);i++){const a=P[i-1],b=P[i],m=(a[1]+b[1])/2;g+=` C${a[0]} ${m} ${b[0]} ${m} ${b[0]} ${b[1]}`;}
+  const nodes=P.map(([x,y],i)=>{const sag=x<165,lab=i<=S.solved?ST[i].ad:'İstasyon '+(i+1);
+    const t=`<text x="${sag?x+32:x-32}" y="${y+5}" text-anchor="${sag?'start':'end'}" font-family="Manrope" font-weight="700" font-size="13" fill="${i<=S.solved?'#F3E9D2':'#6F7A86'}">${lab}</text>`;
+    if(i<S.solved)return `<circle cx="${x}" cy="${y}" r="22" fill="#E2B04A"/><path d="M${x-9} ${y}l6.5 6.5 11.5-13" stroke="#1B1405" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>${t}`;
+    if(i===S.solved)return `<g style="cursor:pointer" onclick="git('bilmece')"><circle cx="${x}" cy="${y}" r="22" fill="none" stroke="#3FC1B0" stroke-width="3"><animate attributeName="r" values="22;48" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="${x}" cy="${y}" r="22" fill="#3FC1B0"/><text x="${x}" y="${y+7}" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="19" fill="#06231F">${i+1}</text></g>${t}`;
+    return `<circle cx="${x}" cy="${y}" r="19" fill="#172A44" stroke="rgba(243,233,210,.25)" stroke-width="1.5"/><g transform="translate(${x-8},${y-9}) scale(.7)" stroke="#A9A491" fill="none" stroke-width="2.4"><path d="M5 11h14v10h-14zM8 11V8a4 4 0 0 1 8 0v3"/></g>${t}`;}).join('');
+  return `<svg viewBox="0 0 330 460" style="display:block;width:100%" role="img" aria-label="Hazine haritası"><defs><pattern id="pd" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.2" fill="rgba(243,233,210,.07)"/></pattern></defs><rect width="330" height="460" fill="url(#pd)"/><path d="${d}" fill="none" stroke="rgba(243,233,210,.22)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>${S.solved>1?`<path d="${g}" fill="none" stroke="#E2B04A" stroke-width="4" stroke-linecap="round"/>`:''}${nodes}</svg>`;
+}
+
+/* ---------- ekranlar ---------- */
+const V={
+genel(){return V.acilis(true)},
+acilis(sabit){return `<div class="body" style="justify-content:center;align-items:center;text-align:center;gap:20px;background:radial-gradient(circle at 50% 40%,rgba(226,176,74,.14),transparent 55%)">
+  <div class="lg" style="width:290px">${logoSVG(!sabit)}</div>
+  <div class="${sabit?'':'after'}" style="display:grid;gap:14px;justify-items:center;width:100%"><p class="wordmark" style="font-size:30px">HAZİNE AVI</p><button class="btn gold" style="max-width:260px" onclick="git('katilim')">Başla</button></div></div>`},
+katilim(){return `<div class="body">
+  <div style="display:grid;justify-items:center;gap:6px"><div class="lg" style="width:120px">${logoSVG(false)}</div><p class="wordmark">HAZİNE AVI</p></div>
+  <div><label for="sf">Katılım şifresi (öğretmenin söyler)</label><input id="sf" class="field code" value="KASIF42" oninput="$('#kerr')&&($('#kerr').hidden=true)"></div>
+  <div><label for="ad">Adın veya takma adın</label><input id="ad" class="field" value="Ayşe"></div>
+  <p class="muted small" style="margin:0">Soyadını ya da telefon numaranı yazma. Sadece adın yeter.</p>
+  <div id="kerr" class="err" hidden>Şifre yanlış. Öğretmeninin söylediği şifreyi yaz.</div>
+  <button class="btn gold" onclick="katil()">Maceraya katıl</button>
+  <button class="btn ghost small" onclick="git('ogiris')">Öğretmen girişi</button></div>`},
+takim(){return `<div class="body">
+  <div class="eyebrow" style="color:var(--teal)">BAHAR ŞENLİĞİ 2026</div><h2 class="h">Merhaba Ayşe, takımını seç</h2>
+  <div class="seg"><button aria-pressed="${S.jm===0}" onclick="S.jm=0;render()">Takıma katıl</button><button aria-pressed="${S.jm===1}" onclick="S.jm=1;render()">Yeni takım kur</button></div>
+  ${S.jm===0?TK.slice(0,4).map(t=>`<button class="lrow" style="${t.n===S.team?`border-color:${t.c};background:${t.c}22`:''}" onclick="S.team='${t.n}';S.color='${t.c}';render()"><span class="dot" style="width:14px;height:14px;background:${t.c}"></span><b class="grow">${t.n}</b><span class="muted small">${[4,4,3,4][TK.indexOf(t)]} kişi</span></button>`).join('')
+  :`<div><label for="tad">Takım adı</label><input id="tad" class="field" value="Kaşifler"></div><label>Takım rengi</label><div style="display:flex;gap:12px">${RENK.map(c=>`<button aria-label="Renk" onclick="S.color='${c}';render()" style="width:42px;height:42px;border-radius:50%;background:${c};border:3px solid ${c===S.color?'var(--sand)':'transparent'}"></button>`).join('')}</div>`}
+  <button class="btn gold" onclick="git('harita');bildir('${S.jm?'Takımın kuruldu':'Takımına katıldın'}')">${S.jm?'Takımı kur':'Takıma katıl'}</button></div>`},
+harita(){const c=cur(),bitti=S.solved>=ST.length;return `<div class="body">
+  <div class="top"><button class="chip" style="border-color:${S.color};background:${S.color}22" onclick="git('takimim')"><span class="sw" style="background:${S.color}"></span>${S.team}<span class="muted" style="font-weight:600">· 4</span></button><div class="grow"></div>${puan()}<button class="iconbtn" aria-label="Yenile" onclick="bildir('Oyun bilgileri güncellendi')">${I.yenile}</button></div>
+  <div class="serit b">${I.hop}<span>Duyuru: 15 dakika kaldı, son istasyona odaklanın!</span></div>
+  ${S.yayin&&!bitti?`<button class="serit t" onclick="git('yayin')">${I.konum}<span>Konum paylaşıldı: ${c+1}. istasyonun yerini görmek için dokun.</span></button>`:''}
+  <div style="border-radius:22px;border:1px solid var(--line);background:var(--ink-2);overflow:hidden">${harita()}</div>
+  ${bitti?`<button class="btn gold" onclick="git('final')">Hazineyi aç</button>`:`<div class="card" style="display:grid;gap:12px"><div class="top"><div class="grow"><div class="eyebrow" style="color:var(--teal)">SIRADAKİ · İSTASYON ${c+1}/${ST.length}</div><b>Bilmece seni bekliyor</b></div><span class="chip num">06:12</span></div><button class="btn gold" onclick="git('bilmece')">Bilmeceyi aç</button><span class="muted small">Mert (Kaşifler) ${ST[Math.max(0,c-1)].ad} istasyonunu açtı</span></div>`}
+  ${!S.yayin&&!bitti?`<button class="btn ghost small" onclick="S.yayin=true;render();bildir('Öğretmenin bir konum paylaştı!')">Kılavuz: öğretmen konum paylaşsın</button>`:''}</div>`},
+bilmece(){const s=ST[cur()];return `<div class="body">
+  ${ustbar(`<div class="eyebrow">İSTASYON ${cur()+1} / ${ST.length}</div>`,'harita',puan())}
+  <div class="card" style="display:grid;gap:12px;background:linear-gradient(160deg,var(--panel-2),var(--panel))"><div class="eyebrow" style="color:var(--teal)">BİLMECE</div><p class="riddle">${s.b}</p></div>
+  ${s.ip.map((h,i)=>{const k=cur()+'-'+i,ac=S.hints[k],so=S.sor===i;return `<button class="hint ${ac?'open':''}" onclick="ipucu(${i})">${I.ampul}<span style="flex:1">${ac?h:so?`Emin misin? Tekrar dokun: −${i?25:10} puan`:'İpucu '+(i+1)}</span>${ac||so?'':`<span class="cost">−${i?25:10}</span>`}</button>`}).join('')}
+  ${S.mesafe?`<p class="muted small" style="margin:0;display:flex;gap:8px;align-items:center"><span style="width:16px;color:var(--teal)">${I.konum}</span>QR parçasını istasyonun 50 m yakınında okutmalısın.</p>`:''}
+  <button class="btn gold" onclick="git('tara')">QR okut</button></div>`},
+tara(){return `<div class="cam"></div><div style="position:relative;z-index:2;padding:52px 16px 0">${ustbar('<div style="text-align:center;font-weight:700">Parçayı çerçeveye getir</div>','bilmece','<span style="width:42px"></span>')}</div>
+  <div class="piece"><canvas id="pq"></canvas></div><div class="frame"><i></i><i></i><i></i><i></i><div class="scanline"></div></div>
+  <div class="camui"><p class="muted small" style="margin:0;text-align:center">QR kod çerçeveye girince kendiliğinden okunur.</p>
+  <button class="btn gold" onclick="bildir('Parça doğrulandı!');setTimeout(()=>git('gorev'),500)">Kılavuz: doğru parçayı okut</button>
+  <button class="btn ghost small" onclick="bildir('Bu parça henüz senin için değil. Önce sıradaki bilmeceyi çöz.',true)">Kılavuz: başka istasyonun parçası</button></div>`},
+gorev(){const s=ST[cur()];return `<div class="body">
+  ${ustbar(`<div class="eyebrow">MİNİ GÖREV · İSTASYON ${cur()+1}</div>`,'bilmece')}
+  <div class="card" style="display:grid;gap:10px"><div class="eyebrow" style="color:var(--teal)">SON BİR ADIM</div><p class="riddle" style="font-size:18px">${s.q}</p></div>
+  <div class="grid2">${s.o.map((o,i)=>`<button class="opt ${S.pick===i?(i===s.a?'good':'bad'):''}" onclick="cevap(${i})">${o}</button>`).join('')}</div>
+  <p class="muted small" style="margin:0">Yanlış cevap 5 puan götürür ama oyunu durdurmaz.</p></div>`},
+basari(){const c=cur(),hp=(S.hints[c+'-0']?10:0)+(S.hints[c+'-1']?25:0),son=c===ST.length-1;return `<canvas id="confetti"></canvas><div class="body" style="text-align:center">
+  <div class="seal">${I.tik}</div><div class="eyebrow" style="color:var(--teal)">İSTASYON ${c+1} TAMAMLANDI</div><h2 class="h" style="font-size:26px">${ST[c].ad} senin!</h2>
+  <div class="card ledger" style="text-align:left"><div><span>İstasyon puanı</span><b class="plus">+100</b></div><div><span>Hız bonusu</span><b class="plus">+${S.yayin?0:29}</b></div>${S.tries?`<div><span>Yanlış cevap</span><b class="minus">−${S.tries*5}</b></div>`:''}${hp?`<div><span>İpucu (önceden düşüldü)</span><b class="minus">−${hp}</b></div>`:''}<div class="tot"><span>Takım puanı</span><b style="color:var(--brass)">${S.score+129-(S.yayin?29:0)-S.tries*5} p</b></div></div>
+  <button class="btn gold" onclick="ileri()">${son?'Hazineye git':'Sıradaki bilmece'}</button></div>`},
+yayin(){return `<div class="body">
+  ${ustbar('<b>Paylaşılan konum</b>','harita')}
+  <div class="serit t">${I.hop}<span>Öğretmenin ${cur()+1}. istasyonun (${ST[cur()].ad}) yerini paylaştı.</span></div>
+  <div class="card" style="display:flex;gap:16px;align-items:center"><svg viewBox="0 0 84 84" width="84" height="84" aria-hidden="true"><circle cx="42" cy="42" r="41" fill="#112036" stroke="rgba(226,176,74,.5)" stroke-width="2"/><circle cx="42" cy="42" r="29" fill="none" stroke="rgba(243,233,210,.15)" stroke-dasharray="3 6"/><g transform="rotate(45 42 42)"><path d="M42 9 L49 42 L35 42z" fill="#3FC1B0"/><path d="M42 65 L47 42 L37 42z" fill="rgba(243,233,210,.3)"/></g><circle cx="42" cy="42" r="5" fill="#E2B04A"/></svg><div><div class="h" style="font-size:30px">49 m</div><b style="color:var(--teal)">Yön: KD</b></div></div>
+  <button class="btn gold" onclick="bildir('Telefonun harita uygulaması açılır')">Haritada yol tarifi al</button><button class="btn ghost small" onclick="bildir('Konum yenileniyor…')">Uzaklığı yenile</button>
+  <p class="muted small" style="margin:0">Konumu paylaşılan istasyonda hız bonusu verilmez.</p></div>`},
+takimim(){const uy=[['Ayşe',1,'İlk adım'],['Mert',2,'Keskin göz'],['Zeynep',0],['Can',0]];return `<div class="body">
+  ${ustbar(`<div style="display:flex;gap:8px;align-items:center"><span class="dot" style="width:12px;height:12px;background:${S.color}"></span><b style="font-family:var(--display);font-size:18px">${S.team}</b></div>`,'harita')}
+  <div class="tiles"><div class="tile"><b>${S.solved}/${ST.length}</b><span>İstasyon</span></div><div class="tile"><b class="num">${S.score}</b><span>Puan</span></div><div class="tile"><b>3.</b><span>Sıra</span></div></div>
+  <div class="eyebrow">ÜYELER · 4/5</div>
+  ${uy.map(m=>`<div class="lrow"><span class="av" style="background:${S.color}">${m[0][0]}</span><span class="grow"><b>${m[0]}</b><small>${m[1]?m[1]+' istasyon açtı':'Henüz istasyon açmadı'}</small></span>${m[2]?`<span class="chip" style="border-color:var(--brass);color:var(--brass);background:rgba(226,176,74,.12)">${m[2]}</span>`:''}</div>`).join('')}
+  <div class="eyebrow">SIRALAMA</div>${TK.map((t,i)=>`<div class="sira ${t.me?'me':''}"><b class="num">${i+1}</b><span class="dot" style="background:${t.c}"></span><span>${t.n}</span><b class="num">${t.me?S.score:t.p} p</b></div>`).join('')}
+  ${S.cik?`<p class="muted small" style="margin:0">Çıkarsan takımının puanı kaybolmaz. Tekrar girmek için şifreyi yeniden yazman gerekir.</p><div class="row"><button class="btn ghost small" onclick="S.cik=false;render()">Vazgeç</button><button class="btn gold" onclick="git('katilim')">Evet, çık</button></div>`:`<button class="btn ghost small" onclick="S.cik=true;render()">Oyundan çık</button>`}</div>`},
+final(){return `<canvas id="confetti"></canvas><div class="body" style="text-align:center">
+  <div class="eyebrow" style="color:var(--teal)">5 İSTASYON TAMAMLANDI</div><h2 class="h" style="font-size:26px">Hazineyi buldunuz!</h2>
+  <svg class="chest" viewBox="0 0 200 150" width="210" style="margin:0 auto" aria-hidden="true"><ellipse cx="100" cy="72" rx="70" ry="34" fill="#F7D27A" opacity=".35"/><circle cx="78" cy="70" r="9" fill="#F7D27A"/><circle cx="98" cy="64" r="10" fill="#E2B04A"/><circle cx="118" cy="70" r="9" fill="#F7D27A"/><rect x="40" y="76" width="120" height="62" rx="8" fill="#7A4E1C"/><rect x="40" y="76" width="120" height="10" fill="#5E3A12"/><rect x="40" y="96" width="120" height="6" fill="#E2B04A"/><rect x="92" y="90" width="16" height="22" rx="3" fill="#E2B04A"/><g class="lid"><rect x="40" y="48" width="120" height="30" rx="14" fill="#8E5B22"/><rect x="40" y="70" width="120" height="6" fill="#E2B04A"/></g></svg>
+  <div class="cert"><div class="t">BAŞARI SERTİFİKASI</div><div class="n">Ayşe</div><p>${S.team} takımı · Bahar Şenliği 2026</p><p>${S.score} puan · 1. sıra</p><p style="color:#7A4E0E">Alaşehir Bilim ve Sanat Merkezi</p></div>
+  <div class="eyebrow" style="text-align:left">SIRALAMA</div>${[[S.team,S.score,S.color,1],['Zeytin Dalı',520,'#62D394'],['Yıldız Avcıları',410,'#3FC1B0']].map((t,i)=>`<div class="sira ${t[3]?'me':''}" style="text-align:left"><b class="num">${i+1}</b><span class="dot" style="background:${t[2]}"></span><span>${t[0]}</span><b class="num">${t[1]} p</b></div>`).join('')}
+  <button class="btn ghost small" onclick="sifirla();S.e='harita';render()">Kılavuz: oyunu baştan başlat</button></div>`},
+ogiris(){return `<div class="body">
+  <div style="display:grid;justify-items:center;gap:6px"><div class="lg" style="width:110px">${logoSVG(false)}</div><div class="eyebrow">ÖĞRETMEN PANELİ</div><h2 class="h">${S.kayit?'Öğretmen hesabı aç':'Oyunu yönet'}</h2></div>
+  ${S.bas&&!S.kayit?`<div class="serit g">${I.tik}<span>Başvurunuz yöneticiye iletildi. Onaylanınca bu ekrandan giriş yapabilirsiniz.</span></div>`:''}
+  ${S.kayit?`<div><label>Adınız soyadınız</label><input class="field" value="Ayşe Yılmaz"></div>`:`<button class="btn white" onclick="S.picker=true;render()"><b style="font-family:var(--display);color:#4285F4;font-size:20px">G</b>Google ile giriş yap</button><div style="display:flex;gap:10px;align-items:center"><span style="flex:1;height:1px;background:var(--line)"></span><span class="muted small">ya da e-posta ile</span><span style="flex:1;height:1px;background:var(--line)"></span></div>`}
+  <div><label>E-posta</label><input class="field" value="ogretmen@ornek.com"></div><div><label>Şifre</label><input class="field" type="password" value="••••••••"></div>
+  ${S.kayit?`<div><label>Şifre (tekrar)</label><input class="field" type="password" value="••••••••"></div><button class="btn gold" onclick="S.kayit=false;S.bas=true;render()">Başvuruyu gönder</button><p class="muted small" style="text-align:center;margin:0">Hesabınız yönetici onaylayınca açılır.</p><button class="btn ghost small" onclick="S.kayit=false;render()">Hesabım var, giriş yap</button>`
+  :`<button class="btn gold" onclick="git('oyunlar')">Giriş yap</button><button class="btn ghost small" onclick="S.kayit=true;render()">Hesabım yok, öğretmen olarak kaydol</button>`}
+  <button class="btn ghost small" onclick="git('katilim')">Öğrenci ekranına dön</button></div>
+  ${S.picker?`<div class="picker" onclick="if(event.target===this){S.picker=false;render()}"><div class="in"><div style="text-align:center;font-size:20px">Bir hesap seçin</div><div style="text-align:center;font-size:13px;color:#BDC1C6">Hazine Avı uygulamasına devam etmek için</div>
+  <button onclick="git('oyunlar');bildir('Giriş yapıldı')"><span class="av" style="background:#8AB4F8">Z</span><span><b>Zeynep Demir</b><br><small style="color:#BDC1C6">zeynep.demir@ornek.com</small></span></button>
+  <button onclick="S.picker=false;S.bas=true;render();bildir('Hesabınız yöneticinin onayını bekliyor.',true)"><span class="av" style="background:#F28B82">Y</span><span><b>Yeni öğretmen</b><br><small style="color:#BDC1C6">yeni.ogretmen@ornek.com</small></span></button>
+  <div style="font-size:13px;color:#BDC1C6">Kılavuz: ilk hesap onaylı, ikincisi onay bekliyor.</div></div></div>`:''}`},
+oyunlar(y){return `<div class="body">
+  ${ustbar(baslik(y?'YÖNETİCİ':'ÖĞRETMEN PANELİ','Oyunlarım'),'','<button class="iconbtn" aria-label="Öğrenci ekranı" onclick="git(\'katilim\')">'+I.geri+'</button>')}
+  ${y?`<button class="lrow" style="background:rgba(226,176,74,.10);border-color:rgba(226,176,74,.4)" onclick="git('ogretmenler')"><span style="width:24px;color:var(--brass)">${I.kisi}</span><span class="grow"><b>Öğretmenler</b><small>${S.onayli.length} onaylı öğretmen${S.bekleyen.length?' · '+S.bekleyen.length+' başvuru bekliyor':''}</small></span>${S.bekleyen.length?`<span class="chip" style="background:var(--coral);color:var(--ink);border:0">${S.bekleyen.length}</span>`:''}</button>`:''}
+  <button class="lrow" onclick="git('pano')"><span class="grow"><b style="font-size:17px">Bahar Şenliği 2026</b><small class="num">Şifre: ${S.pass}</small></span><span class="state warn">● CANLI</span></button>
+  <button class="lrow" onclick="git('pano')"><span class="grow"><b style="font-size:17px">23 Nisan Etkinliği</b><small class="num">Şifre: PUSULA17</small></span><span class="state done">● HAZIRLIK</span></button>
+  <div class="card" style="display:grid;gap:10px"><div class="eyebrow">YENİ OYUN</div><div><label>Oyunun adı</label><input class="field" placeholder="Örnek: Bilim Şenliği"></div><button class="btn gold" onclick="bildir('Oyun oluşturuldu');git('pano')">Oyun oluştur</button></div>
+  <button class="btn ghost small" onclick="git('ogiris')">Çıkış yap</button>
+  ${y?'':S.sil?`<p class="muted small" style="margin:0">Hesabınız ve öğretmen yetkiniz kalıcı olarak silinir. Kurduğunuz oyunlar okulda kalır. Emin misiniz?</p><div class="row"><button class="btn ghost small" onclick="S.sil=false;render()">Vazgeç</button><button class="btn gold" onclick="git('ogiris');bildir('Hesabınız silindi')">Evet, sil</button></div>`:`<button style="background:none;border:0;color:var(--coral);font-size:13px;text-align:left;padding:8px 0" onclick="S.sil=true;render()">Hesabımı sil</button>`}</div>`},
+yoyun(){return V.oyunlar(true)},
+pano(){return `<div class="body">
+  ${ustbar(baslik('BAHAR ŞENLİĞİ 2026','Canlı pano'),'oyunlar',`<span class="state warn">● CANLI</span>`)}
+  <div class="tiles"><div class="tile"><b>5</b><span>Takım</span></div><div class="tile"><b>19</b><span>Telefon</span></div><div class="tile"><b class="num">42:17</b><span>Süre</span></div></div>
+  <button class="lrow" onclick="git('ayar')"><span class="grow"><b>Katılım ${S.open?'açık':'kapalı'}</b><small>Şifre: ${S.pass} · değiştirmek için dokunun</small></span><span class="state ${S.open?'ok':'warn'}">${S.open?'AÇIK':'KAPALI'}</span></button>
+  <div class="grid2"><button class="act" onclick="git('konum')">${I.konum}Konum yayınla</button><button class="act" onclick="S.duyuru=!S.duyuru;render()">${I.hop}Duyuru gönder</button><button class="act" onclick="git('qr')">${I.qr}QR kartları</button><button class="act" onclick="bildir('Pano bağlantısı paylaşıldı')">${I.paylas}Web panosu</button></div>
+  ${S.duyuru?`<div class="card" style="display:grid;gap:10px"><div><label>Tüm takımlara duyuru</label><input class="field" value="15 dakika kaldı!"></div><div style="display:flex;flex-wrap:wrap;gap:8px">${['15 dakika kaldı!','Son istasyona odaklanın!','Ödül töreni bahçede.'].map(h=>`<span class="chip">${h}</span>`).join('')}</div><button class="btn gold" onclick="S.duyuru=false;render();bildir('Duyuru gönderildi')">Gönder</button></div>`:''}
+  <div class="eyebrow">TAKIMLAR</div>
+  ${TK.map(t=>{const bit=t.s>=5,tk=!bit&&t.d>15;return `<div class="card" style="padding:14px;display:grid;gap:8px;${tk?'border-color:rgba(240,113,96,.5)':''}"><div class="top"><span class="dot" style="width:12px;height:12px;background:${t.c}"></span><b class="grow">${t.n}</b><span class="muted small num">${t.p} p</span><span class="state ${bit?'done':tk?'warn':'ok'}">${bit?'Bitirdi':tk?'Takıldı · '+t.d+' dk':(t.s+1)+'. istasyonda · '+t.d+' dk'}</span></div><div class="bar">${ST.map((_,i)=>`<i class="${i<t.s?'on':''}"></i>`).join('')}</div></div>`}).join('')}
+  <div class="eyebrow">SON OLAYLAR</div>
+  ${[['şimdi','Mert (Kaşifler) Kütüphane istasyonunu açtı',''],['3 dk','Bilge Baykuşlar 2. istasyonda ipucu aldı','c'],['5 dk','Elif (Yıldız Avcıları) Bahçedeki Çınar istasyonunu açtı','']].map(o=>`<div style="display:flex;gap:10px;font-size:14px"><span class="muted num" style="min-width:48px">${o[0]}</span><span style="${o[2]?'color:var(--coral)':''}">${o[1]}</span></div>`).join('')}
+  <button class="btn ghost small" onclick="bildir('Oyun bitti · katılım kapandı')">Oyunu bitir</button></div>${tab('pano')}`},
+ist(){return `<div class="body">
+  ${ustbar(baslik('BAHAR ŞENLİĞİ 2026','İstasyonlar'),'','<span class="chip">5 istasyon</span>')}
+  ${ST.map((s,i)=>`<div class="lrow" style="padding:12px"><span style="width:38px;height:38px;border-radius:12px;background:var(--ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;color:var(--brass);flex:none">${i+1}</span><button class="grow" style="background:none;border:0;text-align:left;padding:0" onclick="S.ist=${i};git('duzenle')"><b>${s.ad}</b><small><span style="color:${i<4||S.konumVar?'var(--ok)':'var(--coral)'}">${i<4||S.konumVar?'Konum ✓':'Konum yok'}</span> · <span style="color:var(--ok)">Bilmece ✓</span> · Görev</small></button><span style="display:grid;color:var(--sand-dim)"><button style="background:none;border:0;padding:2px 6px" onclick="bildir('Sıra değişti')">▲</button><button style="background:none;border:0;padding:2px 6px" onclick="bildir('Sıra değişti')">▼</button></span><button style="background:none;border:0;color:var(--coral);font-size:13px" onclick="bildir('Silmeden önce onay sorulur',true)">Sil</button></div>`).join('')}
+  <button class="btn ghost" onclick="S.ist=5;git('duzenle')">+ İstasyon ekle</button>
+  <div class="serit b">${I.uyari}<span>Oyun sürerken sıra değiştirmek veya silmek takımların ilerlemesini karıştırabilir.</span></div></div>${tab('ist')}`},
+duzenle(){const s=ST[Math.min(S.ist,4)],yeni=S.ist>4;return `<div class="body">
+  ${ustbar(baslik('İSTASYON '+(S.ist+1),'Düzenle'),'ist','<button class="btn gold" style="width:auto;min-height:44px;padding:0 18px" onclick="git(\'ist\');bildir(\'Kaydedildi · öğrencilere gönderildi\')">Kaydet</button>')}
+  <div><label>Başlık (öğrenci açınca görür)</label><input class="field" value="${yeni?'İstasyon 6':s.ad}"></div>
+  <div><label>Bilmece</label><textarea class="field" rows="4" style="resize:none">${yeni?'':s.b}</textarea></div>
+  <div><label>İpucu 1 (−10 puan)</label><input class="field" value="${yeni?'':s.ip[0]}"></div><div><label>İpucu 2 (−25 puan)</label><input class="field" value="${yeni?'':s.ip[1]}"></div>
+  <div class="eyebrow">MİNİ GÖREV (isteğe bağlı)</div><div><label>Soru</label><textarea class="field" rows="2" style="resize:none">${yeni?'':s.q}</textarea></div>
+  ${yeni?'':`<p class="muted small" style="margin:0">Doğru cevabın yanındaki daireye dokunun.</p>${s.o.map((o,i)=>`<div style="display:flex;gap:10px;align-items:center"><button class="radio ${S.dogru===i?'on':''}" aria-label="Doğru cevap" onclick="S.dogru=${i};render()">${S.dogru===i?'<span style="width:14px;color:var(--ink)">'+I.tik+'</span>':''}</button><input class="field" value="${o}"></div>`).join('')}`}
+  <div class="eyebrow">PARÇANIN KONUMU</div>
+  <div class="card" style="display:grid;gap:10px">${S.konumVar||(!yeni&&S.ist<4)?`<div style="display:flex;gap:10px;align-items:center"><span style="width:22px;color:var(--ok)">${I.konum}</span><b class="num">38.35694, 28.52791</b></div><button class="btn ghost small" onclick="bildir('Telefonun harita uygulaması açılır')">Haritada gör</button>`:`<p class="muted small" style="margin:0">Parçayı sakladığınız yerde durun ve aşağıdaki düğmeye basın.</p>`}<button class="btn gold" onclick="S.konumVar=true;render();bildir('Konum alındı · kaydetmeyi unutmayın')">Buradayım, konumu kaydet</button></div>
+  <div class="eyebrow">QR ŞİFRESİ</div>
+  <div class="lrow"><span style="width:84px;height:84px;background:#fff;border-radius:8px;padding:4px;flex:none"><canvas class="qrimg" id="eq"></canvas></span><span class="grow"><b class="num">${S.kodYeni||s.kod}</b><small>Yeni şifre üretip kaydederseniz eski kart çalışmaz.</small></span><button class="iconbtn" aria-label="Yeni QR şifresi" onclick="yeniKod()">${I.yenile}</button></div>
+  <button class="btn gold" onclick="git('ist');bildir('Kaydedildi · öğrencilere gönderildi')">Kaydet</button></div>`},
+qr(){return `<div class="body">
+  ${ustbar(baslik('BAHAR ŞENLİĞİ 2026','QR kartları'))}
+  <p class="muted small" style="margin:0">A4 sayfaya 6 kart, kesim çizgili. Kartlarda istasyon adı yazmaz, sadece numarası yazar. Lamine edip saklayın.</p>
+  <div class="grid2">${ST.map((s,i)=>`<div class="qcard"><span class="s">İSTASYON ${i+1}</span><canvas data-qr="${s.kod}"></canvas><span style="font-size:11px;color:#8A7A5A">${s.ad}</span></div>`).join('')}</div>
+  <button class="btn gold" onclick="S.pdf=true;render()">PDF oluştur ve paylaş</button>
+  <p class="muted small" style="margin:0">Ekrandaki önizlemede ad sadece size görünür.</p></div>${tab('qr')}
+  ${S.pdf?`<div class="sheet" onclick="if(event.target===this){S.pdf=false;render()}"><div class="in"><b>QR kartlarını gönder</b><div style="display:flex;gap:10px;align-items:center;background:#F1F3F4;border-radius:12px;padding:12px"><span style="color:#D93025;font-weight:800">PDF</span>hazine-avi-qr-kartlari.pdf</div><div class="apps">${[['WhatsApp','#25D366','W'],['Gmail','#EA4335','M'],['Drive','#1A73E8','D'],['Yazdır','#5F6368','⎙']].map(a=>`<button onclick="S.pdf=false;render();bildir('${a[0]} ile paylaşıldı')"><span class="ic" style="background:${a[1]}">${a[2]}</span>${a[0]}</button>`).join('')}</div></div></div>`:''}`},
+konum(){const ist=ST[S.ist>4?2:S.ist];return `<div class="body">
+  ${ustbar(baslik('BAHAR ŞENLİĞİ 2026','Konum yayınla'),'pano')}
+  <div class="serit c">${I.uyari}<span>Bilge Baykuşlar 2. istasyonda takıldı.</span></div><div class="serit c">${I.uyari}<span>Kartallar 1. istasyonda takıldı.</span></div>
+  <div class="eyebrow">HANGİ İSTASYON?</div><div class="stpick">${ST.map((_,i)=>`<button aria-pressed="${S.ist===i}" onclick="S.ist=${i};render()">${i+1}</button>`).join('')}</div>
+  <div class="eyebrow">KİME?</div><div class="seg"><button aria-pressed="${S.hedef===0}" onclick="S.hedef=0;render()">Tüm takımlar</button><button aria-pressed="${S.hedef===1}" onclick="S.hedef=1;render()">Tek takım</button></div>
+  ${S.hedef?TK.slice(2,5).map((t,i)=>`<div class="lrow" style="${i===1?`border-color:${t.c};background:${t.c}22`:''}"><span class="dot" style="width:12px;height:12px;background:${t.c}"></span><b>${t.n}</b></div>`).join(''):''}
+  <div class="card" style="display:flex;gap:12px;align-items:center"><span style="width:24px;color:var(--teal)">${I.konum}</span><span><b>${ist.ad}</b><br><span class="muted small num">38.35693, 28.52790</span></span></div>
+  <button class="btn gold" onclick="S.yayin=true;git('pano');bildir('Konum yayınlandı · öğrencilere bildirildi')">Yayınla ve bildir</button>
+  <p class="muted small" style="margin:0">Konumu yayınlanan istasyonda takımlar hız bonusu alamaz.</p></div>`},
+ayar(){return `<div class="body">
+  ${ustbar(baslik('BAHAR ŞENLİĞİ 2026','Oyun ayarları'),'',`<span class="state warn">● CANLI</span>`)}
+  <div class="eyebrow">KATILIM ŞİFRESİ</div><div class="lrow"><b class="grow num" style="font-size:28px;letter-spacing:.12em;color:var(--brass)">${S.pass}</b><button class="iconbtn" aria-label="Yeni şifre" onclick="yeniSifre()">${I.yenile}</button></div>
+  <p class="muted small" style="margin:0">Öğrencilere sözlü söyleyin veya tahtaya yazın. Şifreyi değiştirmek içerideki oyuncuları çıkarmaz.</p>
+  <button class="toggle" aria-pressed="${S.open}" onclick="S.open=!S.open;render();bildir(S.open?'Katılım açıldı':'Katılım kapandı',!S.open)"><span><b>Katılım açık</b><br><span class="muted small">Kapalıyken doğru şifreyle de girilemez.</span></span><span class="sw"></span></button>
+  <button class="toggle" aria-pressed="${S.mesafe}" onclick="S.mesafe=!S.mesafe;render()"><span><b>Mesafe kontrolü</b><br><span class="muted small">QR yalnızca istasyonun 50 m yakınında kabul edilir.</span></span><span class="sw"></span></button>
+  <div class="toggle"><span><b>Takım başına en fazla</b><br><span class="muted small">Her öğrenci kendi telefonuyla katılır.</span></span><span style="display:flex;gap:8px;align-items:center"><button class="iconbtn" onclick="S.maks=Math.max(1,S.maks-1);render()">−</button><b style="font-family:var(--display);font-size:20px;width:22px;text-align:center">${S.maks}</b><button class="iconbtn" onclick="S.maks=Math.min(10,S.maks+1);render()">+</button></span></div>
+  <div class="eyebrow">WEB PANOSU</div><p class="muted small" style="margin:0">Bilgisayarda, TV'de veya projeksiyonda açın. Takımlar uydu haritasında canlı görünür.</p><button class="btn ghost small" onclick="bildir('Pano bağlantısı paylaşıldı')">Pano bağlantısını paylaş</button>
+  <div class="eyebrow">OYUN DURUMU</div><button class="btn ghost small" onclick="bildir('Oyun bitti · katılım kapandı')">Oyunu bitir ve katılımı kapat</button></div>${tab('ayar')}`},
+ogretmenler(){return `<div class="body">
+  ${ustbar(baslik('YÖNETİCİ','Öğretmenler'),'yoyun')}
+  <p class="muted small" style="margin:0">Öğretmenler uygulamada Google ile giriş yapınca başvuruları burada görünür. Onaylanan öğretmen kendi oyunlarını kurar ve yönetir.</p>
+  <div class="eyebrow">BEKLEYEN BAŞVURULAR</div>${S.bekleyen.length?'':'<p class="muted small" style="margin:0">Bekleyen başvuru yok.</p>'}
+  ${S.bekleyen.map((o,i)=>`<div class="card" style="display:grid;gap:10px;border-color:rgba(226,176,74,.4)"><div><b>${o.ad}</b><br><span class="muted small">${o.ep}</span></div><div class="row"><button class="btn ghost small" onclick="S.bekleyen.splice(${i},1);render();bildir('Başvuru silindi')">Reddet</button><button class="btn gold small" onclick="onayla(${i})">Onayla</button></div></div>`).join('')}
+  <div class="eyebrow">ONAYLI ÖĞRETMENLER</div>
+  ${S.onayli.map((o,i)=>`<div class="lrow"><span class="av" style="background:${o.sahip?'var(--brass)':'var(--teal)'}">${o.ad[0]}</span><span class="grow"><b>${o.ad}${o.sahip?' (siz)':''}</b><small>${o.ep}</small></span>${o.sahip?'':S.kald===i?`<button style="background:none;border:0;color:var(--coral);font-weight:800;font-size:13px" onclick="S.onayli.splice(${i},1);S.kald=null;render();bildir('Yetki kaldırıldı')">Emin misiniz? Kaldır</button>`:`<button style="background:none;border:0;color:var(--coral);font-size:13px" onclick="S.kald=${i};render()">Yetkiyi kaldır</button>`}</div>`).join('')}</div>`}
+};
+
+/* ---------- eylemler ---------- */
+function katil(){if($('#sf').value.trim().toUpperCase()!==S.pass){$('#kerr').hidden=false;return;}git('takim');}
+function ipucu(i){const k=cur()+'-'+i;if(S.hints[k])return;if(S.sor!==i){S.sor=i;render();return;}S.hints[k]=1;S.score-=i?25:10;S.sor=null;render();bildir('İpucu açıldı · −'+(i?25:10)+' puan',true);}
+function cevap(i){const s=ST[cur()];if(S.pick===s.a)return;S.pick=i;if(i===s.a){render();setTimeout(()=>git('basari'),700);}else{S.tries++;render();bildir('Yanlış cevap · −5 puan. Tekrar dene!',true);}}
+function ileri(){S.score+=129-(S.yayin?29:0)-S.tries*5;S.tries=0;S.solved++;S.yayin=false;git(S.solved>=ST.length?'final':'harita');}
+function yeniKod(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789',r=n=>Array.from({length:n},()=>a[Math.floor(Math.random()*a.length)]).join('');S.kodYeni=`ALS-${r(4)}-${r(2)}`;render();bildir('Yeni QR şifresi · kaydedince eski kart geçersiz olur');}
+function yeniSifre(){const w=['KASIF','PUSULA','HARITA','UZUM','YILDIZ','SANDIK','ATLAS','MERAK'];S.pass=w[Math.floor(Math.random()*w.length)]+(10+Math.floor(Math.random()*89));render();bildir('Yeni şifre hazır');}
+function onayla(i){const o=S.bekleyen.splice(i,1)[0];S.onayli.push(o);render();bildir(o.ad+' artık öğretmen');}
+function konfeti(){const cv=$('#confetti');if(!cv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=cv.getBoundingClientRect();cv.width=r.width;cv.height=r.height;const c=cv.getContext('2d'),cols=['#E2B04A','#3FC1B0','#F07160','#F3E9D2','#62D394'];const p=Array.from({length:110},()=>({x:r.width/2+(Math.random()-.5)*60,y:r.height*.3,vx:(Math.random()-.5)*9,vy:-Math.random()*9-3,s:Math.random()*6+4,c:cols[Math.floor(Math.random()*5)],a:Math.random()*6}));let f=0;(function t(){c.clearRect(0,0,cv.width,cv.height);p.forEach(q=>{q.vy+=.22;q.x+=q.vx;q.y+=q.vy;q.a+=.1;c.save();c.translate(q.x,q.y);c.rotate(q.a);c.fillStyle=q.c;c.fillRect(-q.s/2,-q.s/4,q.s,q.s/2);c.restore();});if(++f<190)requestAnimationFrame(t);else c.clearRect(0,0,cv.width,cv.height);})();}
+
+/* ---------- çizim ---------- */
+function render(){
+  const sc=$('#screen');sc.innerHTML=(S.e==='tara'?'':st())+V[S.e]();
+  const pq=$('#pq');if(pq)drawQR(pq,ST[cur()].kod);
+  const eq=$('#eq');if(eq)drawQR(eq,S.kodYeni||ST[Math.min(S.ist,4)].kod);
+  sc.querySelectorAll('canvas[data-qr]').forEach(c=>drawQR(c,c.dataset.qr));
+  if(S.e==='basari'||S.e==='final')konfeti();
+  const mk=g=>E.filter(x=>x[2]===g).map((x,i)=>`<button aria-current="${S.e===x[0]}" onclick="git('${x[0]}')"><span class="k">${g==='g'?'★':String(i+1).padStart(2,'0')}</span>${x[1]}</button>`).join('');
+  $('#nav0').innerHTML=mk('g');$('#navP').innerHTML=mk('p');$('#navO').innerHTML=mk('o');$('#navY').innerHTML=mk('y');
+  const n=N[S.e],g=E.find(x=>x[0]===S.e)[2],tg={g:['p','Genel bakış'],p:['p','Öğrenci'],o:['o','Öğretmen'],y:['y','Yönetici']}[g];
+  $('#notes').innerHTML=`<div class="card"><span class="tag ${tg[0]}">${tg[1]}</span><h3>${n[0]}</h3><p>${n[1]}</p>${g==='g'?'<ol>':'<p style="color:var(--sand);font-weight:700;margin:0 0 6px">Bu ekranda</p><ul>'}${n[2].map(x=>`<li>${x}</li>`).join('')}${g==='g'?'</ol>':'</ul>'}<div class="tip">${n[3]}</div></div>`+
+   (g==='g'?`<div class="card roles"><div><span class="tag p" style="margin:0">Öğrenci</span><span><b>Şifre ve adla girer.</b> Hesap açmaz; bilmece çözer, QR okutur.</span></div><div><span class="tag o" style="margin:0">Öğretmen</span><span><b>Google ile girer.</b> Oyun kurar, kart basar, oyunu yönetir.</span></div><div><span class="tag y" style="margin:0">Yönetici</span><span><b>Tek kişi.</b> Öğretmen başvurularını onaylar, yetkiyi geri alır.</span></div></div>`:'');
+}
+const H=window.claude?.hot;H?.snapshot?.(()=>({e:S.e}));
+(H?.ready?H.ready:f=>f(H?.data??{}))(d=>{if(d&&d.e&&V[d.e])S.e=d.e;render();});
+</script>
+</body>
+</html>

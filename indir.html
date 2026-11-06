@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hazine Avı İndir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Tek tema, uygulamayla aynı: lacivert zemin, pirinç altın. Telefonda tek sütun, geniş ekranda adımlar yanda. */
+:root{--ink:#0B1626;--ink2:#112036;--panel:#172A44;--line:rgba(243,233,210,.14);--sand:#F3E9D2;--dim:#A9A491;--brass:#E2B04A;--deep:#B9862A;--teal:#3FC1B0;
+  --display:"Unbounded","Arial Black",sans-serif;--body:"Manrope","Segoe UI",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--sand);font:16px/1.55 var(--body);
+  background-image:radial-gradient(900px 500px at 50% -10%,rgba(226,176,74,.12),transparent 60%)}
+main{max-width:960px;margin:0 auto;padding:40px 20px 64px;display:grid;gap:28px}
+.hero{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center}
+.logo svg{width:100%;height:auto;display:block}
+h1{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;margin:0;background:linear-gradient(180deg,#F7D27A,var(--brass) 60%,#A8761F);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--dim);margin:8px 0 0;font-weight:600}
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px}
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;min-height:60px;border-radius:16px;font-weight:800;font-size:18px;text-decoration:none;color:#1B1405;background:linear-gradient(180deg,#F0C35E,var(--brass) 55%,var(--deep))}
+.btn svg{width:24px;height:24px}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--dim);font-size:13px;margin-top:12px}
+.meta b{color:var(--sand);font-family:"JetBrains Mono",monospace;font-weight:600}
+h2{font-family:var(--display);font-size:17px;margin:0 0 14px;text-wrap:balance}
+ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:a}
+ol li{display:grid;grid-template-columns:34px 1fr;gap:12px;counter-increment:a}
+ol li::before{content:counter(a);width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--brass);font-family:var(--display);font-weight:800;display:grid;place-items:center}
+ol b{display:block}
+ol span{color:var(--dim);font-size:14px}
+.qr{display:grid;justify-items:center;gap:10px;text-align:center}
+.qr #kod{background:#fff;padding:12px;border-radius:14px;width:196px;height:196px}
+.qr #kod img,.qr #kod canvas{width:172px!important;height:172px!important}
+.links{display:grid;gap:10px}
+.link{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--ink2);border:1px solid var(--line);color:var(--sand);text-decoration:none;font-weight:700}
+.link small{display:block;color:var(--dim);font-weight:500}
+.link:hover,.btn:hover{filter:brightness(1.06)}
+a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.note{color:var(--dim);font-size:14px;border-left:3px solid var(--teal);padding-left:12px;margin:0}
+@media (max-width:760px){.hero{grid-template-columns:96px 1fr;gap:16px}h1{font-size:30px}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="logo" id="logo"></div>
+    <div>
+      <h1>HAZİNE AVI</h1>
+      <p class="sub">Alaşehir Bilim ve Sanat Merkezi · Android uygulaması</p>
+    </div>
+  </section>
+
+  <section class="cols">
+    <div class="card" style="display:grid;gap:22px">
+      <div>
+        <a class="btn" href="https://github.com/Nusret1/hazine-avi-harita/releases/latest/download/HazineAvi.apk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Uygulamayı indir
+        </a>
+        <div class="meta"><span>Sürüm <b>1.0.0</b></span><span>Boyut <b>25 MB</b></span><span>Android <b>8.0</b> ve üzeri</span></div>
+      </div>
+      <div>
+        <h2>Nasıl kurulur?</h2>
+        <ol>
+          <li><div><b>"Uygulamayı indir"e dokunun.</b><span>Telefon "bu dosya zararlı olabilir" diye sorarsa "Yine de indir" deyin.</span></div></li>
+          <li><div><b>İnen HazineAvi.apk dosyasını açın.</b><span>Bildirim çubuğundan ya da Dosyalar → İndirilenler'den.</span></div></li>
+          <li><div><b>"Bu kaynaktan yüklemeye izin ver" deyin.</b><span>Telefon ilk seferde Ayarlar'ı açar; düğmeyi açıp geri dönün.</span></div></li>
+          <li><div><b>"Yükle"ye, sonra "Aç"a dokunun.</b><span>Öğrenciler öğretmenin söylediği şifreyle, öğretmenler "Öğretmen girişi"nden Google hesabıyla girer.</span></div></li>
+        </ol>
+      </div>
+      <p class="note">Yeni sürüm çıktığında bu sayfadan tekrar indirip kurmanız yeterli; oyun verileriniz kaybolmaz. Uygulama yalnızca Android telefon ve tabletlerde çalışır.</p>
+    </div>
+
+    <div style="display:grid;gap:20px">
+      <div class="card qr">
+        <h2 style="margin:0">Telefonla okutun</h2>
+        <div id="kod" role="img" aria-label="Bu sayfanın QR kodu"></div>
+        <span class="sub" style="margin:0;font-size:13px">Sınıfta tahtaya yansıtın; öğrenciler kamerayla okutup bu sayfaya gelsin.</span>
+      </div>
+      <div class="card links">
+        <h2 style="margin:0 0 4px">Daha fazlası</h2>
+        <a class="link" href="kilavuz.html"><span>Kullanım kılavuzu<small>Her ekran ve her rol için resimli anlatım</small></span></a>
+        <a class="link" href="./"><span>Canlı pano<small>Projeksiyon için uydu haritası</small></span></a>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+new QRCode(document.getElementById('kod'),{text:'https://nusret1.github.io/hazine-avi-harita/indir.html',width:172,height:172,colorDark:'#1B1405',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+// Logo: ana sayfadaki çizimin sade hâli
+(function(){const B=['#3B5288','#46B276','#2FA7CF','#E2679D','#B39A68','#8C77EA','#5CBF4F','#F0A64A'];const hex=r=>Array.from({length:6},(_,k)=>{const a=(-90+60*k)*Math.PI/180;return (r*Math.cos(a)).toFixed(1)+','+(r*Math.sin(a)).toFixed(1)}).join(' ');
+document.getElementById('logo').innerHTML=`<svg viewBox="0 0 400 400" role="img" aria-label="Alaşehir BİLSEM logosu"><circle cx="200" cy="200" r="152" fill="none" stroke="#E2B04A" stroke-width="5"/>${B.map((c,k)=>{const a=(-90+45*k)*Math.PI/180;return `<polygon transform="translate(${(200+152*Math.cos(a)).toFixed(1)},${(200+152*Math.sin(a)).toFixed(1)})" points="${hex(40)}" fill="${c}"/>`}).join('')}<g transform="translate(200,190) scale(2.2)"><path d="M0 28 C-4 20 -10 18 -18 20 C-22 12 -32 10 -34 0 C-28 -2 -26 -8 -30 -14 C-20 -14 -16 -20 -16 -28 C-8 -24 -4 -28 0 -34 C4 -28 8 -24 16 -28 C16 -20 20 -14 30 -14 C26 -8 28 -2 34 0 C32 10 22 12 18 20 C10 18 4 20 0 28Z" fill="#7CC254"/></g></svg>`;})();
+</script>
+</body>
+</html>
