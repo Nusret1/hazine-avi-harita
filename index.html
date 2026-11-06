@@ -311,12 +311,12 @@ async function startLive(){
   }catch(e){message('Bağlantı kurulamadı','Firebase yüklenemedi. İnternet bağlantısını kontrol edip sayfayı yenileyin.');}
 }
 
-/* --- DEMO: örnek veriler. Konumlar örnektir, gerçek konumlar öğretmenin "Buradayım" ile kaydettiği noktalardan gelir. --- */
+/* --- DEMO: örnek veriler. Konumlar Alaşehir BİLSEM çevresinde örnektir, gerçek konumlar öğretmenin "Buradayım" ile kaydettiği noktalardan gelir. --- */
 function startDemo(){
   const now=Date.now(), b=now-(42*60+17)*1000;
   const D={ad:'Bahar Şenliği 2026 (demo)',baslangic:b,durum:'canli',
-    baslangicNoktasi:{lat:38.36185,lng:28.51150},
-    istasyonlar:[{ad:'Giriş Kapısı',lat:38.36212,lng:28.51196},{ad:'Kütüphane',lat:38.36298,lng:28.51240},{ad:'Çınar',lat:38.36246,lng:28.51318},{ad:'Laboratuvar',lat:38.36318,lng:28.51362},{ad:'Hazine',lat:38.36258,lng:28.51418}],
+    baslangicNoktasi:{lat:38.35655,lng:28.52700},
+    istasyonlar:[{ad:'Giriş Kapısı',lat:38.35668,lng:28.52738},{ad:'Kütüphane',lat:38.35735,lng:28.52752},{ad:'Çınar',lat:38.35693,lng:28.52790},{ad:'Laboratuvar',lat:38.35738,lng:28.52822},{ad:'Hazine',lat:38.35683,lng:28.52850}],
     takimlar:[{ad:'Yıldız Avcıları',renk:'#3FC1B0',istasyon:4,puan:540,uye:4},{ad:'Kaşifler',renk:'#E2B04A',istasyon:2,puan:240,uye:4},{ad:'Pusula',renk:'#9C8CF0',istasyon:2,puan:228,uye:3},{ad:'Bilge Baykuşlar',renk:'#F07160',istasyon:1,puan:120,uye:4},{ad:'Zeytin Dalı',renk:'#62D394',istasyon:4,puan:560,uye:4},{ad:'Kartallar',renk:'#E98AC2',istasyon:0,puan:0,uye:3}],
     olaylar:[[-450,'**Kartallar** takımı oyuna katıldı',''],[-360,'**Elif** (Pusula) Kütüphane istasyonunu açtı',''],[-270,'**Bilge Baykuşlar** 2. istasyonda ipucu aldı','ipucu'],[-180,'**Ali** (Zeytin Dalı) Laboratuvar istasyonunu açtı',''],[-90,'**Mert** (Kaşifler) Kütüphane istasyonunu açtı','']].map(e=>({zaman:now+e[0]*1000,metin:e[1],tur:e[2]})),
     duyurular:['15 dakika kaldı, son istasyona odaklanın!','İpucu almak puan götürür ama oyunu durdurmaz.','Ödül töreni oyun bitiminde ana bahçede.']};
