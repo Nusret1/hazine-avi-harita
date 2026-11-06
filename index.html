@@ -162,7 +162,7 @@ document.getElementById('logo').innerHTML=logoSVG();
 const map=L.map('map',{zoomControl:true,attributionControl:true,zoomSnap:.25,maxZoom:21});
 const LAYERS={
   sat:L.layerGroup([
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21,attribution:'Uydu: Esri, Maxar, Earthstar Geographics'}),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:18,maxZoom:21,attribution:'Uydu: Esri, Maxar, Earthstar Geographics'}),
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21,opacity:.55}),
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21})
   ]),
@@ -203,7 +203,7 @@ function drawStations(){
   });
   if(!fitted && pts.length){fit(); fitted=true;}
 }
-function fit(){ if(!G.istasyonlar.length) return; const b=L.latLngBounds(G.istasyonlar.map(s=>[s.lat,s.lng])); if(G.baslangicNoktasi) b.extend([G.baslangicNoktasi.lat,G.baslangicNoktasi.lng]); map.fitBounds(b,{padding:[90,90],maxZoom:19}); }
+function fit(){ if(!G.istasyonlar.length) return; const b=L.latLngBounds(G.istasyonlar.map(s=>[s.lat,s.lng])); if(G.baslangicNoktasi) b.extend([G.baslangicNoktasi.lat,G.baslangicNoktasi.lng]); map.fitBounds(b,{paddingTopLeft:[110,120],paddingBottomRight:[110,110],maxZoom:19}); }
 document.getElementById('bFit').onclick=fit;
 
 function anchorOf(t){ // takım pulunun duracağı yer: son açtığı istasyon
