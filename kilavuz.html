@@ -202,6 +202,14 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
   .phone{width:100%;height:760px;border-radius:0;padding:0;background:none;box-shadow:none}
   .screen{border-radius:24px}
 }
+.videolar{max-width:1100px;margin:0 auto;padding:8px 24px 40px}
+.videolar h2{font-family:var(--display);font-size:22px;margin:0 0 6px}
+.videolar>p{color:var(--sand-dim);margin:0 0 18px;max-width:70ch}
+.vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.vkart{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.vkart video{display:block;width:100%;aspect-ratio:16/9;background:var(--ink-2)}
+.vkart div{padding:12px 16px}.vkart b{display:block}.vkart span{color:var(--sand-dim);font-size:13px}
+@media (max-width:760px){.vgrid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -219,6 +227,12 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
   <main class="phone" aria-label="Telefon önizlemesi"><div class="screen" id="screen"></div></main>
   <aside class="notes" id="notes"></aside>
 </div>
+
+<section class="videolar" id="video" aria-labelledby="video-b">
+  <h2 id="video-b">Video kılavuz</h2>
+  <p>Dört kısa bölüm, sesli anlatım ve alt yazıyla. Öğretmenler toplantısında ya da projeksiyonda izletebilirsiniz.</p>
+  <div class="vgrid"><div class="vkart"><video controls preload="none" poster="video/bolum1.jpg" src="video/HazineAvi-Bolum1.mp4"></video><div><b>1. Oyunun özeti</b><span>Bilmece, QR kart, puan ve hazine: oyun baştan sona · 1 dk 50 sn</span></div></div><div class="vkart"><video controls preload="none" poster="video/bolum2.jpg" src="video/HazineAvi-Bolum2.mp4"></video><div><b>2. Roller</b><span>Yönetici, öğretmen ve öğrenci ne yapar? · 2 dk 44 sn</span></div></div><div class="vkart"><video controls preload="none" poster="video/bolum3.jpg" src="video/HazineAvi-Bolum3.mp4"></video><div><b>3. Ne tür sorular sorulabilir?</b><span>Bilmece türleri ve derslere göre mini görevler · 2 dk 10 sn</span></div></div><div class="vkart"><video controls preload="none" poster="video/bolum4.jpg" src="video/HazineAvi-Bolum4.mp4"></video><div><b>4. Pedagojik çıktılar</b><span>Yön bulma, harita okuryazarlığı, problem çözme ve fazlası · 2 dk 5 sn</span></div></div></div>
+</section>
 
 <section class="sema" aria-labelledby="sema-b">
   <h2 id="sema-b">İşleyiş şeması</h2>
