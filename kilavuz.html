@@ -8,18 +8,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* Tek tema "gece seferi" (uygulamanın kendisiyle aynı). Solda ekran listesi, ortada telefon, sağda "bu ekranda ne yapılır". */
+/* Varsayılan gündüz (açık) tema, uygulamanın gündüz moduyla aynı renkler; sağ üstteki düğme gece temasına geçirir. Solda ekran listesi, ortada telefon, sağda "bu ekranda ne yapılır". */
 :root{
-  --ink:#0B1626; --ink-2:#112036; --panel:#172A44; --panel-2:#1E3554;
-  --line:rgba(243,233,210,.12); --sand:#F3E9D2; --sand-dim:#A9A491;
-  --brass:#E2B04A; --brass-deep:#B9862A; --teal:#3FC1B0; --coral:#F07160; --ok:#62D394;
+  --ink:#F4EFE5; --ink-2:#E8E1D3; --panel:#FFFCF6; --panel-2:#F1EADC; --fg:19,35,58;
+  --line:rgba(19,35,58,.14); --sand:#13233A; --sand-dim:#59616F;
+  --brass:#A06C0C; --brass-deep:#B9862A; --teal:#0E7B6C; --coral:#C13F2B; --ok:#1C8448;
   --display:"Unbounded","Arial Black",system-ui,sans-serif; --body:"Manrope","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
-  color-scheme:dark;
+  color-scheme:light;
 }
+:root[data-tema="gece"]{--ink:#0B1626; --ink-2:#112036; --panel:#172A44; --panel-2:#1E3554; --fg:243,233,210;
+  --line:rgba(var(--fg),.12); --sand:#F3E9D2; --sand-dim:#A9A491;
+  --brass:#E2B04A; --teal:#3FC1B0; --coral:#F07160; --ok:#62D394; color-scheme:dark}
+.temad{position:fixed;top:14px;right:16px;z-index:20;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--sand);font-weight:700;font-size:13px}
+.temad svg{width:16px;height:16px}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
+html,body{margin:0;min-height:100%}
+html{background:var(--ink)}
 body{background:var(--ink);color:var(--sand);font-family:var(--body);font-size:15px;line-height:1.45;
-  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(63,193,176,.10),transparent 60%),radial-gradient(900px 500px at 0% 110%,rgba(226,176,74,.08),transparent 60%)}
+  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(63,193,176,.10),transparent 60%),radial-gradient(900px 500px at 0% 110%,rgba(226,176,74,.08),transparent 60%);background-attachment:fixed}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 
@@ -35,7 +41,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--teal);outline-o
 .rail nav button[aria-current="true"]{background:var(--panel);color:var(--sand)}
 .rail nav button[aria-current="true"] .k{color:var(--brass);opacity:1}
 
-.phone{width:390px;height:812px;border-radius:46px;background:#05090F;padding:12px;box-shadow:0 0 0 1px rgba(243,233,210,.08),0 40px 80px -20px rgba(0,0,0,.7),0 0 120px -30px rgba(63,193,176,.25);position:sticky;top:24px}
+.phone{width:390px;height:812px;border-radius:46px;background:#05090F;padding:12px;box-shadow:0 0 0 1px rgba(var(--fg),.08),0 40px 80px -20px rgba(0,0,0,.7),0 0 120px -30px rgba(63,193,176,.25);position:sticky;top:24px}
 .screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--ink);display:flex;flex-direction:column}
 .status{display:flex;justify-content:space-between;padding:14px 26px 6px;font-size:13px;font-weight:700;flex:none}
 .status .dots{display:flex;gap:5px;align-items:center}
@@ -103,7 +109,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 .state{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap}
 .state.ok{background:rgba(98,211,148,.15);color:var(--ok)} .state.warn{background:rgba(240,113,96,.15);color:var(--coral)} .state.done{background:rgba(226,176,74,.18);color:var(--brass)}
 .toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;border-radius:14px;background:var(--ink-2);border:1px solid var(--line);width:100%;text-align:left}
-.toggle .sw{width:48px;height:28px;border-radius:99px;background:rgba(243,233,210,.15);position:relative;flex:none}
+.toggle .sw{width:48px;height:28px;border-radius:99px;background:rgba(var(--fg),.15);position:relative;flex:none}
 .toggle .sw::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:var(--sand);transition:left .2s}
 .toggle[aria-pressed="true"] .sw{background:var(--teal)} .toggle[aria-pressed="true"] .sw::after{left:23px}
 .tabbar{flex:none;display:flex;justify-content:space-around;padding:10px 8px 22px;border-top:1px solid var(--line);background:var(--ink-2)}
@@ -111,7 +117,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 .tabbar button svg{width:22px;height:22px}
 .tabbar button[aria-current="true"]{color:var(--brass)}
 .bar{height:8px;border-radius:99px;background:var(--ink);overflow:hidden;display:flex;gap:2px}
-.bar i{flex:1;background:rgba(243,233,210,.08)} .bar i.on{background:var(--teal)}
+.bar i{flex:1;background:rgba(var(--fg),.08)} .bar i.on{background:var(--teal)}
 .act{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--ink-2);text-align:left;font-weight:700;font-size:14px}
 .act svg{width:22px;height:22px;color:var(--brass)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -125,7 +131,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 .after{animation:core .7s 1.7s ease both}
 .wordmark{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:.02em;margin:0;text-align:center;background:linear-gradient(180deg,#F7D27A,var(--brass) 60%,#A8761F);-webkit-background-clip:text;background-clip:text;color:transparent}
 .riddle{font-size:19px;line-height:1.5;font-weight:600;margin:0}
-.hint{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border-radius:14px;border:1px solid rgba(243,233,210,.25);background:transparent;width:100%;text-align:left;font-weight:700}
+.hint{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border-radius:14px;border:1px solid rgba(var(--fg),.25);background:transparent;width:100%;text-align:left;font-weight:700}
 .hint.open{border-color:rgba(226,176,74,.4);background:rgba(226,176,74,.08)}
 .hint .cost{font-family:var(--mono);color:var(--coral)}
 .hint svg{width:20px;height:20px;color:var(--brass);flex:none}
@@ -143,6 +149,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 @keyframes scan{from{top:14px}to{top:234px}}
 .piece{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) rotate(-6deg);width:150px;height:150px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 18px 30px rgba(0,0,0,.6)}
 .piece canvas,.qrimg{width:100%;height:100%;image-rendering:pixelated;display:block}
+.camust{color:#F3E9D2}.camust .iconbtn{background:rgba(5,9,15,.55);color:#F3E9D2;border-color:rgba(243,233,210,.2)}.camui .muted,.camui small{color:#C9C3B0}
 .camui{position:absolute;left:0;right:0;bottom:0;padding:20px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(transparent,rgba(5,9,15,.94) 30%)}
 #confetti{position:absolute;inset:0;pointer-events:none;z-index:5}
 .seal{width:150px;height:150px;margin:16px auto 0;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#F7D27A,var(--brass) 55%,#8E6418);animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
@@ -199,6 +206,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 </style>
 </head>
 <body>
+<button class="temad" id="temad" onclick="temaDegis()"></button>
 <div class="stage">
   <aside class="rail">
     <h1>Hazine Avı</h1>
@@ -217,33 +225,33 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
   <p>Oyunun bütün parçaları tek bir veritabanında (Firebase, Avrupa sunucusu) buluşur. Öğretmen hazırlar, öğrenci oynar, pano izler; uygulamanın kendisi ve güncellemeleri GitHub'dan gelir.</p>
   <div class="sema-k">
   <svg viewBox="0 0 1000 600" role="img" aria-label="Hazine Avı işleyiş şeması">
-    <defs><marker id="ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#A9A491"/></marker></defs>
-    <g font-family="Manrope,sans-serif" font-size="14" fill="#F3E9D2">
+    <defs><marker id="ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--sand-dim)"/></marker></defs>
+    <g font-family="Manrope,sans-serif" font-size="14" fill="var(--sand)">
       <!-- kutular -->
-      <g><rect x="30" y="40" width="210" height="96" rx="14" fill="rgba(240,113,96,.12)" stroke="#F07160" stroke-width="1.5"/>
+      <g><rect x="30" y="40" width="210" height="96" rx="14" fill="rgba(240,113,96,.12)" stroke="var(--coral)" stroke-width="1.5"/>
         <text x="135" y="74" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">YÖNETİCİ</text>
-        <text x="135" y="98" text-anchor="middle" fill="#A9A491">Öğretmenleri onaylar,</text><text x="135" y="118" text-anchor="middle" fill="#A9A491">iletişim bilgilerini yazar</text></g>
-      <g><rect x="30" y="240" width="210" height="116" rx="14" fill="rgba(226,176,74,.12)" stroke="#E2B04A" stroke-width="1.5"/>
+        <text x="135" y="98" text-anchor="middle" fill="var(--sand-dim)">Öğretmenleri onaylar,</text><text x="135" y="118" text-anchor="middle" fill="var(--sand-dim)">iletişim bilgilerini yazar</text></g>
+      <g><rect x="30" y="240" width="210" height="116" rx="14" fill="rgba(226,176,74,.12)" stroke="var(--brass)" stroke-width="1.5"/>
         <text x="135" y="274" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">ÖĞRETMEN</text>
-        <text x="135" y="298" text-anchor="middle" fill="#A9A491">Google ile girer.</text><text x="135" y="318" text-anchor="middle" fill="#A9A491">Oyun, istasyon, bilmece</text><text x="135" y="338" text-anchor="middle" fill="#A9A491">hazırlar; oyunu yönetir</text></g>
-      <g><rect x="395" y="220" width="250" height="156" rx="18" fill="rgba(63,193,176,.12)" stroke="#3FC1B0" stroke-width="2"/>
+        <text x="135" y="298" text-anchor="middle" fill="var(--sand-dim)">Google ile girer.</text><text x="135" y="318" text-anchor="middle" fill="var(--sand-dim)">Oyun, istasyon, bilmece</text><text x="135" y="338" text-anchor="middle" fill="var(--sand-dim)">hazırlar; oyunu yönetir</text></g>
+      <g><rect x="395" y="220" width="250" height="156" rx="18" fill="rgba(63,193,176,.12)" stroke="var(--teal)" stroke-width="2"/>
         <text x="520" y="256" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">FIREBASE</text>
-        <text x="520" y="278" text-anchor="middle" fill="#A9A491">Avrupa sunucusu · ücretsiz plan</text>
-        <text x="520" y="306" text-anchor="middle">Oyunlar · istasyonlar</text><text x="520" y="328" text-anchor="middle">Takımlar · puanlar · olaylar</text><text x="520" y="350" text-anchor="middle" fill="#A9A491">QR kodları gizli tutulur</text></g>
-      <g><rect x="790" y="240" width="180" height="116" rx="14" fill="rgba(63,193,176,.08)" stroke="#3FC1B0" stroke-width="1.5"/>
+        <text x="520" y="278" text-anchor="middle" fill="var(--sand-dim)">Avrupa sunucusu · ücretsiz plan</text>
+        <text x="520" y="306" text-anchor="middle">Oyunlar · istasyonlar</text><text x="520" y="328" text-anchor="middle">Takımlar · puanlar · olaylar</text><text x="520" y="350" text-anchor="middle" fill="var(--sand-dim)">QR kodları gizli tutulur</text></g>
+      <g><rect x="790" y="240" width="180" height="116" rx="14" fill="rgba(63,193,176,.08)" stroke="var(--teal)" stroke-width="1.5"/>
         <text x="880" y="274" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">ÖĞRENCİLER</text>
-        <text x="880" y="298" text-anchor="middle" fill="#A9A491">Şifre + ad ile girer,</text><text x="880" y="318" text-anchor="middle" fill="#A9A491">bilmece çözer,</text><text x="880" y="338" text-anchor="middle" fill="#A9A491">QR okutur</text></g>
-      <g><rect x="30" y="470" width="210" height="96" rx="14" fill="none" stroke="#A9A491" stroke-width="1.2" stroke-dasharray="5 5"/>
+        <text x="880" y="298" text-anchor="middle" fill="var(--sand-dim)">Şifre + ad ile girer,</text><text x="880" y="318" text-anchor="middle" fill="var(--sand-dim)">bilmece çözer,</text><text x="880" y="338" text-anchor="middle" fill="var(--sand-dim)">QR okutur</text></g>
+      <g><rect x="30" y="470" width="210" height="96" rx="14" fill="none" stroke="var(--sand-dim)" stroke-width="1.2" stroke-dasharray="5 5"/>
         <text x="135" y="504" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="15">QR KARTLARI</text>
-        <text x="135" y="528" text-anchor="middle" fill="#A9A491">PDF → yazdır → okulda</text><text x="135" y="548" text-anchor="middle" fill="#A9A491">istasyonlara saklanır</text></g>
-      <g><rect x="395" y="470" width="250" height="96" rx="14" fill="none" stroke="#3FC1B0" stroke-width="1.2"/>
+        <text x="135" y="528" text-anchor="middle" fill="var(--sand-dim)">PDF → yazdır → okulda</text><text x="135" y="548" text-anchor="middle" fill="var(--sand-dim)">istasyonlara saklanır</text></g>
+      <g><rect x="395" y="470" width="250" height="96" rx="14" fill="none" stroke="var(--teal)" stroke-width="1.2"/>
         <text x="520" y="504" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="15">CANLI PANO</text>
-        <text x="520" y="528" text-anchor="middle" fill="#A9A491">Projeksiyon / TV: uydu haritası,</text><text x="520" y="548" text-anchor="middle" fill="#A9A491">sıralama, son olaylar</text></g>
+        <text x="520" y="528" text-anchor="middle" fill="var(--sand-dim)">Projeksiyon / TV: uydu haritası,</text><text x="520" y="548" text-anchor="middle" fill="var(--sand-dim)">sıralama, son olaylar</text></g>
       <g><rect x="395" y="40" width="250" height="96" rx="14" fill="none" stroke="#9C8CF0" stroke-width="1.5"/>
         <text x="520" y="74" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">GITHUB</text>
-        <text x="520" y="98" text-anchor="middle" fill="#A9A491">İndirme sayfası, kılavuz,</text><text x="520" y="118" text-anchor="middle" fill="#A9A491">yeni sürümler (güncelleme)</text></g>
+        <text x="520" y="98" text-anchor="middle" fill="var(--sand-dim)">İndirme sayfası, kılavuz,</text><text x="520" y="118" text-anchor="middle" fill="var(--sand-dim)">yeni sürümler (güncelleme)</text></g>
       <!-- oklar -->
-      <g fill="none" stroke="#A9A491" stroke-width="1.5" marker-end="url(#ok)">
+      <g fill="none" stroke="var(--sand-dim)" stroke-width="1.5" marker-end="url(#ok)">
         <path d="M135 136V236"/>
         <path d="M240 298H391"/>
         <path d="M135 356V466"/>
@@ -253,7 +261,7 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
         <path d="M645 88H880V236"/>
         <path d="M240 548C330 548 300 600 520 600 750 600 880 520 880 360" stroke-dasharray="5 5"/>
       </g>
-      <g font-size="12.5" fill="#E2B04A">
+      <g font-size="12.5" fill="var(--brass)">
         <text x="145" y="192">onaylar</text>
         <text x="252" y="288">kurar, yönetir</text>
         <text x="145" y="420">PDF basar</text>
@@ -277,6 +285,10 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 </section>
 
 <script>
+(function(){let m=null;try{m=localStorage.getItem('kilavuz-tema')}catch(e){}if(m==='gece')document.documentElement.dataset.tema='gece';})();
+function temaYaz(){const g=document.documentElement.dataset.tema==='gece';document.getElementById('temad').innerHTML=(g?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Gündüz':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>Gece');}
+function temaDegis(){const r=document.documentElement;if(r.dataset.tema==='gece')delete r.dataset.tema;else r.dataset.tema='gece';try{localStorage.setItem('kilavuz-tema',r.dataset.tema||'gunduz')}catch(e){}temaYaz();}
+document.addEventListener('DOMContentLoaded',temaYaz);
 /* ---------- ikonlar ---------- */
 const sv=(d,w=2.2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 const I={geri:sv('M15 18l-6-6 6-6'),yenile:sv('M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5'),qr:sv('M3 3h7v7h-7zM14 3h7v7h-7zM3 14h7v7h-7zM14 14h3v3M21 14v.01M14 21h7v-4'),
@@ -291,9 +303,9 @@ function logoSVG(anim){
   const B=[['#26365A','#3B5288',`<g ${W}><path d="M-7 -9 L-15 0 L-7 9 M7 -9 L15 0 L7 9"/><path d="M3 -12 L-3 12" stroke="#F0A64A"/></g>`],['#2F8A5B','#46B276',`<g ${W}><path d="M-3 -16 l6 2.2 -6.5 15 -6 -2.2z"/><path d="M-13 14h24M3 14a9 9 0 0 0 5-13M-6 5h7"/></g>`],['#1F7FA6','#2FA7CF',`<text y="5" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="12" fill="#fff">E=mc²</text>`],['#C2477F','#E2679D',`<text y="11" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="30" fill="#fff">π</text>`],['#8A744A','#B39A68',`<g ${W}><path d="M-9 14 V-7 a9 7 0 0 1 18 0 V14z"/><path d="M-4 -4h8M-4 1h6M-4 6h8M-4 10.5h4" stroke-width="2"/></g>`],['#6A54C4','#8C77EA',`<g ${W}><path d="M-4 10 V-12 L10 -15 V7"/><circle cx="-8" cy="10" r="4" fill="#fff"/><circle cx="6" cy="7" r="4" fill="#fff"/></g>`],['#3E9A3A','#5CBF4F',`<g ${W} stroke-width="2.2"><ellipse rx="16" ry="6"/><ellipse rx="16" ry="6" transform="rotate(60)"/><ellipse rx="16" ry="6" transform="rotate(-60)"/><circle r="3" fill="#fff"/></g>`],['#D38423','#F0A64A',`<g ${W}><path d="M0 -14 a14 14 0 1 0 0 28 c3 0 3-3 1-5 c-2-2 0-5 3-5 h4 a7 7 0 0 0 7-7 c0-6-7-11-15-11z"/></g>`]];
   const hex=r=>Array.from({length:6},(_,k)=>{const a=(-90+60*k)*Math.PI/180;return (r*Math.cos(a)).toFixed(1)+','+(r*Math.sin(a)).toFixed(1)}).join(' ');
   return `<svg viewBox="0 0 400 400" role="img" aria-label="Alaşehir Bilim ve Sanat Merkezi logosu" class="${anim?'lg-anim':''}"><defs>${B.map((b,k)=>`<linearGradient id="lg${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${b[1]}"/><stop offset="1" stop-color="${b[0]}"/></linearGradient>`).join('')}<linearGradient id="lgL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A6E06A"/><stop offset="1" stop-color="#3E9A3A"/></linearGradient><path id="lgArc" d="M 108 200 A 92 92 0 0 1 292 200"/></defs>
-  <circle class="lg-ring" cx="200" cy="200" r="152" fill="none" stroke="#E2B04A" stroke-opacity=".8" stroke-width="2.5" pathLength="1"/><circle cx="200" cy="200" r="116" fill="rgba(243,233,210,.035)" stroke="rgba(243,233,210,.18)" stroke-dasharray="1 5"/>
+  <circle class="lg-ring" cx="200" cy="200" r="152" fill="none" stroke="var(--brass)" stroke-opacity=".8" stroke-width="2.5" pathLength="1"/><circle cx="200" cy="200" r="116" fill="rgba(var(--fg),.035)" stroke="rgba(var(--fg),.18)" stroke-dasharray="1 5"/>
   ${B.map((b,k)=>{const a=(-90+45*k)*Math.PI/180;return `<g transform="translate(${(200+152*Math.cos(a)).toFixed(1)},${(200+152*Math.sin(a)).toFixed(1)})"><g class="${anim?'lg-hex':''}" style="--d:${.25+k*.09}s"><polygon points="${hex(35)}" fill="url(#lg${k})"/><polygon points="${hex(30)}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>${b[2]}</g></g>`}).join('')}
-  <g class="lg-core"><text font-family="Unbounded" font-weight="700" font-size="12.5" letter-spacing="2.4" fill="#F3E9D2"><textPath href="#lgArc" startOffset="50%" text-anchor="middle">BİLİM VE SANAT MERKEZİ</textPath></text><g transform="translate(193,186)"><path d="M0 28 C-4 20 -10 18 -18 20 C-22 12 -32 10 -34 0 C-28 -2 -26 -8 -30 -14 C-20 -14 -16 -20 -16 -28 C-8 -24 -4 -28 0 -34 C4 -28 8 -24 16 -28 C16 -20 20 -14 30 -14 C26 -8 28 -2 34 0 C32 10 22 12 18 20 C10 18 4 20 0 28Z" fill="url(#lgL)"/><path d="M0 26 V-26 M0 12 L-24 -1 M0 12 L24 -1 M0 0 L-13 -21 M0 0 L13 -21" stroke="#2C6E2A" stroke-width="1.6" fill="none" opacity=".7"/><g fill="#8C77EA"><circle cx="30" cy="18" r="5"/><circle cx="40" cy="18" r="5"/><circle cx="35" cy="26" r="5"/><circle cx="45" cy="26" r="5" fill="#6A54C4"/><circle cx="40" cy="34" r="5" fill="#6A54C4"/></g></g><text x="200" y="250" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="25" fill="#F3E9D2">ALAŞEHİR</text><path d="M150 262 H250" stroke="#E2B04A" stroke-width="2"/><text x="200" y="284" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="13" letter-spacing="3" fill="#E2B04A">2022</text></g></svg>`;
+  <g class="lg-core"><text font-family="Unbounded" font-weight="700" font-size="12.5" letter-spacing="2.4" fill="var(--sand)"><textPath href="#lgArc" startOffset="50%" text-anchor="middle">BİLİM VE SANAT MERKEZİ</textPath></text><g transform="translate(193,186)"><path d="M0 28 C-4 20 -10 18 -18 20 C-22 12 -32 10 -34 0 C-28 -2 -26 -8 -30 -14 C-20 -14 -16 -20 -16 -28 C-8 -24 -4 -28 0 -34 C4 -28 8 -24 16 -28 C16 -20 20 -14 30 -14 C26 -8 28 -2 34 0 C32 10 22 12 18 20 C10 18 4 20 0 28Z" fill="url(#lgL)"/><path d="M0 26 V-26 M0 12 L-24 -1 M0 12 L24 -1 M0 0 L-13 -21 M0 0 L13 -21" stroke="#2C6E2A" stroke-width="1.6" fill="none" opacity=".7"/><g fill="#8C77EA"><circle cx="30" cy="18" r="5"/><circle cx="40" cy="18" r="5"/><circle cx="35" cy="26" r="5"/><circle cx="45" cy="26" r="5" fill="#6A54C4"/><circle cx="40" cy="34" r="5" fill="#6A54C4"/></g></g><text x="200" y="250" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="25" fill="var(--sand)">ALAŞEHİR</text><path d="M150 262 H250" stroke="var(--brass)" stroke-width="2"/><text x="200" y="284" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="13" letter-spacing="3" fill="#E2B04A">2022</text></g></svg>`;
 }
 
 /* ---------- örnek veri ---------- */
@@ -358,11 +370,11 @@ function harita(){
   let d=`M${P[0][0]} ${P[0][1]}`;for(let i=1;i<n;i++){const a=P[i-1],b=P[i],m=(a[1]+b[1])/2;d+=` C${a[0]} ${m} ${b[0]} ${m} ${b[0]} ${b[1]}`;}
   let g=`M${P[0][0]} ${P[0][1]}`;for(let i=1;i<Math.min(S.solved,n);i++){const a=P[i-1],b=P[i],m=(a[1]+b[1])/2;g+=` C${a[0]} ${m} ${b[0]} ${m} ${b[0]} ${b[1]}`;}
   const nodes=P.map(([x,y],i)=>{const sag=x<165,lab=i<=S.solved?ST[i].ad:'İstasyon '+(i+1);
-    const t=`<text x="${sag?x+32:x-32}" y="${y+5}" text-anchor="${sag?'start':'end'}" font-family="Manrope" font-weight="700" font-size="13" fill="${i<=S.solved?'#F3E9D2':'#6F7A86'}">${lab}</text>`;
+    const t=`<text x="${sag?x+32:x-32}" y="${y+5}" text-anchor="${sag?'start':'end'}" font-family="Manrope" font-weight="700" font-size="13" fill="${i<=S.solved?'var(--sand)':'var(--sand-dim)'}">${lab}</text>`;
     if(i<S.solved)return `<circle cx="${x}" cy="${y}" r="22" fill="#E2B04A"/><path d="M${x-9} ${y}l6.5 6.5 11.5-13" stroke="#1B1405" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>${t}`;
-    if(i===S.solved)return `<g style="cursor:pointer" onclick="git('bilmece')"><circle cx="${x}" cy="${y}" r="22" fill="none" stroke="#3FC1B0" stroke-width="3"><animate attributeName="r" values="22;48" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="${x}" cy="${y}" r="22" fill="#3FC1B0"/><text x="${x}" y="${y+7}" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="19" fill="#06231F">${i+1}</text></g>${t}`;
-    return `<circle cx="${x}" cy="${y}" r="19" fill="#172A44" stroke="rgba(243,233,210,.25)" stroke-width="1.5"/><g transform="translate(${x-8},${y-9}) scale(.7)" stroke="#A9A491" fill="none" stroke-width="2.4"><path d="M5 11h14v10h-14zM8 11V8a4 4 0 0 1 8 0v3"/></g>${t}`;}).join('');
-  return `<svg viewBox="0 0 330 460" style="display:block;width:100%" role="img" aria-label="Hazine haritası"><defs><pattern id="pd" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.2" fill="rgba(243,233,210,.07)"/></pattern></defs><rect width="330" height="460" fill="url(#pd)"/><path d="${d}" fill="none" stroke="rgba(243,233,210,.22)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>${S.solved>1?`<path d="${g}" fill="none" stroke="#E2B04A" stroke-width="4" stroke-linecap="round"/>`:''}${nodes}</svg>`;
+    if(i===S.solved)return `<g style="cursor:pointer" onclick="git('bilmece')"><circle cx="${x}" cy="${y}" r="22" fill="none" stroke="var(--teal)" stroke-width="3"><animate attributeName="r" values="22;48" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="${x}" cy="${y}" r="22" fill="#3FC1B0"/><text x="${x}" y="${y+7}" text-anchor="middle" font-family="Unbounded" font-weight="800" font-size="19" fill="#06231F">${i+1}</text></g>${t}`;
+    return `<circle cx="${x}" cy="${y}" r="19" fill="var(--panel)" stroke="rgba(var(--fg),.25)" stroke-width="1.5"/><g transform="translate(${x-8},${y-9}) scale(.7)" stroke="var(--sand-dim)" fill="none" stroke-width="2.4"><path d="M5 11h14v10h-14zM8 11V8a4 4 0 0 1 8 0v3"/></g>${t}`;}).join('');
+  return `<svg viewBox="0 0 330 460" style="display:block;width:100%" role="img" aria-label="Hazine haritası"><defs><pattern id="pd" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1.2" fill="rgba(var(--fg),.07)"/></pattern></defs><rect width="330" height="460" fill="url(#pd)"/><path d="${d}" fill="none" stroke="rgba(var(--fg),.22)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>${S.solved>1?`<path d="${g}" fill="none" stroke="var(--brass)" stroke-width="4" stroke-linecap="round"/>`:''}${nodes}</svg>`;
 }
 
 /* ---------- ekranlar ---------- */
@@ -398,7 +410,7 @@ bilmece(){const s=ST[cur()];return `<div class="body">
   ${s.ip.map((h,i)=>{const k=cur()+'-'+i,ac=S.hints[k],so=S.sor===i;return `<button class="hint ${ac?'open':''}" onclick="ipucu(${i})">${I.ampul}<span style="flex:1">${ac?h:so?`Emin misin? Tekrar dokun: −${i?25:10} puan`:'İpucu '+(i+1)}</span>${ac||so?'':`<span class="cost">−${i?25:10}</span>`}</button>`}).join('')}
   ${S.mesafe?`<p class="muted small" style="margin:0;display:flex;gap:8px;align-items:center"><span style="width:16px;color:var(--teal)">${I.konum}</span>QR parçasını istasyonun 50 m yakınında okutmalısın.</p>`:''}
   <button class="btn gold" onclick="git('tara')">QR okut</button></div>`},
-tara(){return `<div class="cam"></div><div style="position:relative;z-index:2;padding:52px 16px 0">${ustbar('<div style="text-align:center;font-weight:700">Parçayı çerçeveye getir</div>','bilmece','<span style="width:42px"></span>')}</div>
+tara(){return `<div class="cam"></div><div class="camust" style="position:relative;z-index:2;padding:52px 16px 0">${ustbar('<div style="text-align:center;font-weight:700">Parçayı çerçeveye getir</div>','bilmece','<span style="width:42px"></span>')}</div>
   <div class="piece"><canvas id="pq"></canvas></div><div class="frame"><i></i><i></i><i></i><i></i><div class="scanline"></div></div>
   <div class="camui"><p class="muted small" style="margin:0;text-align:center">QR kod çerçeveye girince kendiliğinden okunur.</p>
   <button class="btn gold" onclick="bildir('Parça doğrulandı!');setTimeout(()=>git('gorev'),500)">Kılavuz: doğru parçayı okut</button>
@@ -415,7 +427,7 @@ basari(){const c=cur(),hp=(S.hints[c+'-0']?10:0)+(S.hints[c+'-1']?25:0),son=c===
 yayin(){return `<div class="body">
   ${ustbar('<b>Paylaşılan konum</b>','harita')}
   <div class="serit t">${I.hop}<span>Öğretmenin ${cur()+1}. istasyonun (${ST[cur()].ad}) yerini paylaştı.</span></div>
-  <div class="card" style="display:flex;gap:16px;align-items:center"><svg viewBox="0 0 84 84" width="84" height="84" aria-hidden="true"><circle cx="42" cy="42" r="41" fill="#112036" stroke="rgba(226,176,74,.5)" stroke-width="2"/><circle cx="42" cy="42" r="29" fill="none" stroke="rgba(243,233,210,.15)" stroke-dasharray="3 6"/><g transform="rotate(45 42 42)"><path d="M42 9 L49 42 L35 42z" fill="#3FC1B0"/><path d="M42 65 L47 42 L37 42z" fill="rgba(243,233,210,.3)"/></g><circle cx="42" cy="42" r="5" fill="#E2B04A"/></svg><div><div class="h" style="font-size:30px">49 m</div><b style="color:var(--teal)">Yön: KD</b></div></div>
+  <div class="card" style="display:flex;gap:16px;align-items:center"><svg viewBox="0 0 84 84" width="84" height="84" aria-hidden="true"><circle cx="42" cy="42" r="41" fill="var(--ink-2)" stroke="rgba(226,176,74,.5)" stroke-width="2"/><circle cx="42" cy="42" r="29" fill="none" stroke="rgba(var(--fg),.15)" stroke-dasharray="3 6"/><g transform="rotate(45 42 42)"><path d="M42 9 L49 42 L35 42z" fill="#3FC1B0"/><path d="M42 65 L47 42 L37 42z" fill="rgba(var(--fg),.3)"/></g><circle cx="42" cy="42" r="5" fill="#E2B04A"/></svg><div><div class="h" style="font-size:30px">49 m</div><b style="color:var(--teal)">Yön: KD</b></div></div>
   <button class="btn gold" onclick="bildir('Telefonun harita uygulaması açılır')">Haritada yol tarifi al</button><button class="btn ghost small" onclick="bildir('Konum yenileniyor…')">Uzaklığı yenile</button>
   <p class="muted small" style="margin:0">Konumu paylaşılan istasyonda hız bonusu verilmez.</p></div>`},
 takimim(){const uy=[['Ayşe',1,'İlk adım'],['Mert',2,'Keskin göz'],['Zeynep',0],['Can',0]];return `<div class="body">
@@ -522,7 +534,7 @@ function ileri(){S.score+=129-(S.yayin?29:0)-S.tries*5;S.tries=0;S.solved++;S.ya
 function yeniKod(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789',r=n=>Array.from({length:n},()=>a[Math.floor(Math.random()*a.length)]).join('');S.kodYeni=`ALS-${r(4)}-${r(2)}`;render();bildir('Yeni QR şifresi · kaydedince eski kart geçersiz olur');}
 function yeniSifre(){const w=['KASIF','PUSULA','HARITA','UZUM','YILDIZ','SANDIK','ATLAS','MERAK'];S.pass=w[Math.floor(Math.random()*w.length)]+(10+Math.floor(Math.random()*89));render();bildir('Yeni şifre hazır');}
 function onayla(i){const o=S.bekleyen.splice(i,1)[0];S.onayli.push(o);render();bildir(o.ad+' artık öğretmen');}
-function konfeti(){const cv=$('#confetti');if(!cv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=cv.getBoundingClientRect();cv.width=r.width;cv.height=r.height;const c=cv.getContext('2d'),cols=['#E2B04A','#3FC1B0','#F07160','#F3E9D2','#62D394'];const p=Array.from({length:110},()=>({x:r.width/2+(Math.random()-.5)*60,y:r.height*.3,vx:(Math.random()-.5)*9,vy:-Math.random()*9-3,s:Math.random()*6+4,c:cols[Math.floor(Math.random()*5)],a:Math.random()*6}));let f=0;(function t(){c.clearRect(0,0,cv.width,cv.height);p.forEach(q=>{q.vy+=.22;q.x+=q.vx;q.y+=q.vy;q.a+=.1;c.save();c.translate(q.x,q.y);c.rotate(q.a);c.fillStyle=q.c;c.fillRect(-q.s/2,-q.s/4,q.s,q.s/2);c.restore();});if(++f<190)requestAnimationFrame(t);else c.clearRect(0,0,cv.width,cv.height);})();}
+function konfeti(){const cv=$('#confetti');if(!cv||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=cv.getBoundingClientRect();cv.width=r.width;cv.height=r.height;const c=cv.getContext('2d'),cols=['#E2B04A','#3FC1B0','#F07160','var(--sand)','#62D394'];const p=Array.from({length:110},()=>({x:r.width/2+(Math.random()-.5)*60,y:r.height*.3,vx:(Math.random()-.5)*9,vy:-Math.random()*9-3,s:Math.random()*6+4,c:cols[Math.floor(Math.random()*5)],a:Math.random()*6}));let f=0;(function t(){c.clearRect(0,0,cv.width,cv.height);p.forEach(q=>{q.vy+=.22;q.x+=q.vx;q.y+=q.vy;q.a+=.1;c.save();c.translate(q.x,q.y);c.rotate(q.a);c.fillStyle=q.c;c.fillRect(-q.s/2,-q.s/4,q.s,q.s/2);c.restore();});if(++f<190)requestAnimationFrame(t);else c.clearRect(0,0,cv.width,cv.height);})();}
 
 /* ---------- çizim ---------- */
 function render(){
