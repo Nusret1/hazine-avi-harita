@@ -53,7 +53,7 @@ a{color:var(--brass)}
 <div class="box">
 <p><b>Öğretmenler:</b> Uygulamada <b>Öğretmen girişi → Oyunlarım</b> ekranının en altındaki <b>Hesabımı sil</b> düğmesiyle hesabınızı ve öğretmen yetkinizi hemen silebilirsiniz. Kurduğunuz oyunlar okul etkinliği olarak kalır; silinmelerini isterseniz aşağıdaki adrese yazın.</p>
 <p><b>Öğrenciler:</b> Öğrenci hesabı yoktur. Bir öğrencinin adının veya takım kaydının silinmesini isteyen veli ya da öğrenci, öğretmenine söyleyebilir veya aşağıdaki adrese yazabilir. İstekler en geç 30 gün içinde yerine getirilir.</p>
-<p>İletişim: <a href="mailto:nusretsatar@gmail.com"><b>nusretsatar@gmail.com</b></a></p>
+<p>İletişim: <b data-ilt="okulAdi">Alaşehir Bilim ve Sanat Merkezi</b><br>E-posta: <a data-ilt="eposta" href="mailto:nusretsataratolye@gmail.com">nusretsataratolye@gmail.com</a><br>Telefon: <span data-ilt="telefon">0236 653 88 98</span><br>Adres: <span data-ilt="adres">İstasyon Mah. İzmir Salihli Yolu Cad. No 153 İç Kapı No 1, Alaşehir / Manisa</span></p>
 </div>
 
 <h2>Çocuklar</h2>
@@ -62,5 +62,15 @@ a{color:var(--brass)}
 <h2>Değişiklikler</h2>
 <p>Bu politika değişirse bu sayfa güncellenir ve üstteki tarih değişir.</p>
 </main>
+<script>
+(function(){
+  var V={okulAdi:'Alaşehir Bilim ve Sanat Merkezi',adres:'İstasyon Mah. İzmir Salihli Yolu Cad. No 153 İç Kapı No 1, Alaşehir / Manisa',telefon:'0236 653 88 98',eposta:'nusretsataratolye@gmail.com'};
+  function yaz(v){document.querySelectorAll('[data-ilt]').forEach(function(e){var k=e.getAttribute('data-ilt');if(!v[k])return;
+    if(k==='eposta'&&e.tagName==='A'){e.href='mailto:'+v[k];}e.textContent=v[k];});}
+  yaz(V);
+  fetch('https://firestore.googleapis.com/v1/projects/hazine-avi-alasehir/databases/(default)/documents/ayarlar/genel?key=AIzaSyDzp8pvzBqItbJhLimwcvC4yoymYAtAcTg')
+    .then(function(r){return r.json()}).then(function(d){if(!d.fields)return;var v={};for(var k in d.fields)v[k]=d.fields[k].stringValue;yaz(v);}).catch(function(){});
+})();
+</script>
 </body>
 </html>

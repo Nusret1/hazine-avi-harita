@@ -178,6 +178,12 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
 .radio{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:var(--ink-2);display:grid;place-items:center;flex:none}
 .radio.on{background:var(--ok);border-color:var(--ok)}
 
+.sema{max-width:1100px;margin:0 auto;padding:8px 24px 64px;display:grid;gap:16px}
+.sema h2{font-family:var(--display);font-size:22px;margin:0;text-wrap:balance}
+.sema p{margin:0;color:var(--sand-dim);max-width:70ch}
+.sema-k{background:var(--ink-2);border:1px solid var(--line);border-radius:20px;padding:16px;overflow-x:auto}
+.sema-k svg{display:block;width:100%;min-width:640px;height:auto}
+.sema-l{margin:0;padding-left:22px;display:grid;gap:8px;color:var(--sand);max-width:80ch}
 @media (max-width:1060px){
   .stage{grid-template-columns:minmax(0,1fr);justify-items:center;padding:16px}
   .rail,.notes{width:100%;max-width:420px}
@@ -205,6 +211,70 @@ label{font-size:12px;font-weight:700;color:var(--sand-dim);display:block;margin-
   <main class="phone" aria-label="Telefon önizlemesi"><div class="screen" id="screen"></div></main>
   <aside class="notes" id="notes"></aside>
 </div>
+
+<section class="sema" aria-labelledby="sema-b">
+  <h2 id="sema-b">İşleyiş şeması</h2>
+  <p>Oyunun bütün parçaları tek bir veritabanında (Firebase, Avrupa sunucusu) buluşur. Öğretmen hazırlar, öğrenci oynar, pano izler; uygulamanın kendisi ve güncellemeleri GitHub'dan gelir.</p>
+  <div class="sema-k">
+  <svg viewBox="0 0 1000 600" role="img" aria-label="Hazine Avı işleyiş şeması">
+    <defs><marker id="ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#A9A491"/></marker></defs>
+    <g font-family="Manrope,sans-serif" font-size="14" fill="#F3E9D2">
+      <!-- kutular -->
+      <g><rect x="30" y="40" width="210" height="96" rx="14" fill="rgba(240,113,96,.12)" stroke="#F07160" stroke-width="1.5"/>
+        <text x="135" y="74" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">YÖNETİCİ</text>
+        <text x="135" y="98" text-anchor="middle" fill="#A9A491">Öğretmenleri onaylar,</text><text x="135" y="118" text-anchor="middle" fill="#A9A491">iletişim bilgilerini yazar</text></g>
+      <g><rect x="30" y="240" width="210" height="116" rx="14" fill="rgba(226,176,74,.12)" stroke="#E2B04A" stroke-width="1.5"/>
+        <text x="135" y="274" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">ÖĞRETMEN</text>
+        <text x="135" y="298" text-anchor="middle" fill="#A9A491">Google ile girer.</text><text x="135" y="318" text-anchor="middle" fill="#A9A491">Oyun, istasyon, bilmece</text><text x="135" y="338" text-anchor="middle" fill="#A9A491">hazırlar; oyunu yönetir</text></g>
+      <g><rect x="395" y="220" width="250" height="156" rx="18" fill="rgba(63,193,176,.12)" stroke="#3FC1B0" stroke-width="2"/>
+        <text x="520" y="256" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">FIREBASE</text>
+        <text x="520" y="278" text-anchor="middle" fill="#A9A491">Avrupa sunucusu · ücretsiz plan</text>
+        <text x="520" y="306" text-anchor="middle">Oyunlar · istasyonlar</text><text x="520" y="328" text-anchor="middle">Takımlar · puanlar · olaylar</text><text x="520" y="350" text-anchor="middle" fill="#A9A491">QR kodları gizli tutulur</text></g>
+      <g><rect x="790" y="240" width="180" height="116" rx="14" fill="rgba(63,193,176,.08)" stroke="#3FC1B0" stroke-width="1.5"/>
+        <text x="880" y="274" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">ÖĞRENCİLER</text>
+        <text x="880" y="298" text-anchor="middle" fill="#A9A491">Şifre + ad ile girer,</text><text x="880" y="318" text-anchor="middle" fill="#A9A491">bilmece çözer,</text><text x="880" y="338" text-anchor="middle" fill="#A9A491">QR okutur</text></g>
+      <g><rect x="30" y="470" width="210" height="96" rx="14" fill="none" stroke="#A9A491" stroke-width="1.2" stroke-dasharray="5 5"/>
+        <text x="135" y="504" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="15">QR KARTLARI</text>
+        <text x="135" y="528" text-anchor="middle" fill="#A9A491">PDF → yazdır → okulda</text><text x="135" y="548" text-anchor="middle" fill="#A9A491">istasyonlara saklanır</text></g>
+      <g><rect x="395" y="470" width="250" height="96" rx="14" fill="none" stroke="#3FC1B0" stroke-width="1.2"/>
+        <text x="520" y="504" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="15">CANLI PANO</text>
+        <text x="520" y="528" text-anchor="middle" fill="#A9A491">Projeksiyon / TV: uydu haritası,</text><text x="520" y="548" text-anchor="middle" fill="#A9A491">sıralama, son olaylar</text></g>
+      <g><rect x="395" y="40" width="250" height="96" rx="14" fill="none" stroke="#9C8CF0" stroke-width="1.5"/>
+        <text x="520" y="74" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="16">GITHUB</text>
+        <text x="520" y="98" text-anchor="middle" fill="#A9A491">İndirme sayfası, kılavuz,</text><text x="520" y="118" text-anchor="middle" fill="#A9A491">yeni sürümler (güncelleme)</text></g>
+      <!-- oklar -->
+      <g fill="none" stroke="#A9A491" stroke-width="1.5" marker-end="url(#ok)">
+        <path d="M135 136V236"/>
+        <path d="M240 298H391"/>
+        <path d="M135 356V466"/>
+        <path d="M786 286H649"/>
+        <path d="M649 318H786"/>
+        <path d="M520 376V466"/>
+        <path d="M645 88H880V236"/>
+        <path d="M240 548C330 548 300 600 520 600 750 600 880 520 880 360" stroke-dasharray="5 5"/>
+      </g>
+      <g font-size="12.5" fill="#E2B04A">
+        <text x="145" y="192">onaylar</text>
+        <text x="252" y="288">kurar, yönetir</text>
+        <text x="145" y="420">PDF basar</text>
+        <text x="655" y="276">QR okutur, ilerler</text>
+        <text x="655" y="338">harita, duyuru, konum</text>
+        <text x="530" y="428">anlık özet</text>
+        <text x="700" y="80">uygulama + güncelleme</text>
+        <text x="600" y="590">öğrenci kartı bulur</text>
+      </g>
+    </g>
+  </svg>
+  </div>
+  <ol class="sema-l">
+    <li><b>Yönetici</b> öğretmenin başvurusunu onaylar. Onaylanan öğretmen, yetkisi kaldırılana kadar uygulamayı kullanır.</li>
+    <li><b>Öğretmen</b> oyunu kurar; bütün öğretmenler oyunları görür ama yalnızca kendi oyununu değiştirebilir. Yönetici hepsini değiştirebilir.</li>
+    <li><b>QR kartları</b> basılıp saklanır, her yerde "Buradayım" ile konum kaydedilir.</li>
+    <li><b>Öğrenciler</b> şifreyle girer; her QR okutuşu Firebase'e yazılır, takım arkadaşlarının telefonuna ve <b>canlı panoya</b> anında yansır.</li>
+    <li>Telefon kapanıp açılsa da öğrenci kaldığı yerden devam eder; internet yoksa son bilgiler telefonda görünür, bağlantı gelince eşitlenir.</li>
+    <li>Oyun bitince öğretmen <b>"Oyunu ve tüm verilerini sil"</b> ile hafızayı temizler. Yeni sürümler <b>GitHub</b>'dan gelir; uygulama "Güncelle" şeridi gösterir.</li>
+  </ol>
+</section>
 
 <script>
 /* ---------- ikonlar ---------- */
@@ -250,7 +320,7 @@ const E=[
 const N={
  genel:['Üç rol, bir oyun','Yönetici öğretmenleri onaylar, öğretmen oyunu kurar, öğrenci şifreyle girip oynar.',['Öğretmen Google ile girer; yönetici başvurusunu onaylar.','Öğretmen oyunu kurar, istasyonları ve bilmeceleri yazar.','QR kartlarını PDF olarak basar, parçaları saklar, her yerde "Buradayım" der.','Oyun günü oyunu başlatır, katılım şifresini söyler.','Öğrenciler şifreyle girer, takım kurar, bilmeceyi çözüp QR okutur.','Öğretmen canlı panodan izler, takılana konum gönderir, oyunu bitirir.'],'Soldaki listeden bir ekran seçin. Sağda o ekranda neler yapıldığı yazar.'],
  acilis:['Açılış','Uygulama her açıldığında Alaşehir BİLSEM logosu kendini kurar.',['Başla düğmesine bas ya da ekrana dokun.'],'Animasyon birkaç saniye sürer.'],
- katilim:['Şifreyle katılma','Öğrenciler hesap açmaz. Öğretmenin söylediği şifre ve bir ad yeter.',['Katılım şifresini yaz (büyük-küçük harf fark etmez).','Adını veya takma adını yaz. Soyadı ve telefon yazma.','Maceraya katıl de.'],'Şifre yanlışsa ya da öğretmen katılımı kapattıysa kırmızı uyarı çıkar. Deneyin: şifreyi değiştirip katılın. Doğru şifre bu kılavuzda KASIF42.'],
+ katilim:['Şifreyle katılma','Öğrenciler hesap açmaz. Öğretmenin söylediği şifre ve bir ad yeter.',['Sol üstteki güneş/ay düğmesi: Otomatik, Gündüz, Gece.','Katılım şifresini yaz (büyük-küçük harf fark etmez).','Adını veya takma adını yaz. Soyadı ve telefon yazma.','Maceraya katıl de.'],'Uygulama kapanıp açılsa da öğrenci kaldığı yerden devam eder. Yeni sürüm varsa üstte "Güncelle" şeridi çıkar. Bu kılavuzda doğru şifre KASIF42.'],
  takim:['Takım seçme','Her öğrenci kendi telefonuyla girer; aynı takımdakiler aynı haritayı görür.',['Takıma katıl: listeden takımını seç.','Yeni takım kur: ad yaz, renk seç.','Düğmeye bas.'],'Takım doluysa (öğretmenin belirlediği sınır) uyarı çıkar.'],
  harita:['Hazine haritası','Oyunun ana ekranı. Altın tikliler açıldı, turkuaz yanıp sönen sıradaki, gri kilitliler bekliyor.',['Bilmeceyi aç ya da turkuaz daireye dokun.','Sağ üstteki yuvarlak ok: verileri yeniler.','Takım adına dokun: Takımım ekranı.'],'Öğretmenin duyurusu altın şerit, paylaştığı konum turkuaz şerit olarak üstte görünür. Takım arkadaşın istasyon açınca bildirim gelir.'],
  bilmece:['Bilmece ve ipucu','Bilmeceyi oku, parçanın saklandığı yeri bul.',['Takılırsan İpucu 1 (−10 puan) ya da İpucu 2 (−25 puan).','İpucu iki dokunuşla açılır: ilki "Emin misin?" diye sorar.','Parçayı bulunca QR okut de.'],'Mesafe kontrolü açıksa QR\'ı parçanın 50 m yakınında okutmalısın.'],
@@ -261,14 +331,14 @@ const N={
  takimim:['Takımım','Haritada takım adına dokununca açılır.',['İstasyon, puan ve sıra.','Üyeler ve kimin kaç istasyon açtığı.','Tüm takımların sıralaması.','En altta Oyundan çık (puan kaybolmaz).'],'Tekrar girmek için şifreyi yeniden yazmak gerekir.'],
  final:['Hazine ve sertifika','Son istasyon açılınca sandık açılır.',['Öğrencinin adına başarı sertifikası.','Takımın puanı ve sırası.','Final sıralaması.'],'Ödül töreninde öğretmen web panosunu projeksiyona yansıtabilir.'],
  ogiris:['Öğretmen girişi','Katılım ekranındaki "Öğretmen girişi" ile açılır.',['Google ile giriş yap: telefondaki Google hesabını seç.','İlk girişte başvurun yöneticiye gider; "onay bekliyor" yazar.','Onaylanınca aynı düğmeyle girersin.','Google kullanmak istemezsen "Hesabım yok, öğretmen olarak kaydol".'],'Deneyin: Google düğmesine basıp bir hesap seçin.'],
- oyunlar:['Oyunlarım','Öğretmenin kurduğu oyunlar listelenir.',['Bir oyuna dokun: canlı panosu açılır.','Yeni oyun: ad yaz, Oyun oluştur.','Çıkış yap.','En altta Hesabımı sil (hesap ve yetki kalıcı silinir; oyunlar okulda kalır).'],'Her oyunun kendi katılım şifresi vardır.'],
+ oyunlar:['Oyunlarım','Öğretmenin kurduğu oyunlar listelenir.',['Benim oyunlarım: düzenleyebildikleriniz.','Diğer öğretmenlerin oyunları: hazırlayan ve tarihle, yalnızca görüntüleme.','Bir oyuna dokun: canlı panosu açılır.','Yeni oyun: ad yaz, Oyun oluştur.','Çıkış yap.','En altta Hesabımı sil (hesap ve yetki kalıcı silinir; oyunlar okulda kalır).'],'Her oyunun kendi katılım şifresi vardır.'],
  pano:['Canlı pano','Oyunun anlık durumu. Altta dört sekme: Pano, İstasyonlar, QR, Ayarlar.',['Oyun hazırlıktaysa "Oyunu başlat ve katılımı aç".','Takımlar: hangi istasyonda, kaç dakikadır. 15 dakikadır ilerlemeyen kırmızı "Takıldı".','Konum yayınla, Duyuru gönder, QR kartları, Web panosu.','Son olaylar akışı.','Oyunu bitir.'],'Web panosu bağlantısını bilgisayarda açınca takımlar uydu haritasında canlı görünür.'],
  ist:['İstasyonlar','Oyunun istasyonları sırasıyla.',['Bir istasyona dokun: düzenle.','▲▼ ile sırayı değiştir.','Sil (onay ister).','+ İstasyon ekle.'],'"Konum yok" yazan istasyonda henüz "Buradayım" denmemiş.'],
  duzenle:['İstasyon düzenle','Bir istasyonun her şeyi tek ekranda.',['Başlık, bilmece, iki ipucu.','Mini görev (isteğe bağlı): soru, dört seçenek, doğru cevabın dairesine dokun.','Parçayı sakladığın yerde "Buradayım, konumu kaydet".','QR şifresi: yenile düğmesi yeni kod üretir; eski kart geçersiz olur.','Kaydet.'],'Konum, öğrencilere konum yayınlarken ve 50 m mesafe kontrolünde kullanılır.'],
  qr:['QR kartları','Tüm istasyonların kartları.',['PDF oluştur ve paylaş.','Paylaş menüsünden WhatsApp, Gmail ya da Drive.','A4 sayfaya 6 kart, kesim çizgili. Lamine edip saklayın.'],'Basılı kartta istasyonun adı yazmaz, sadece numarası yazar (adı cevabı ele verirdi).'],
  konum:['Konum yayınla','Takılan takıma ya da herkese bir istasyonun yerini gönder.',['Hangi istasyon: numarayı seç (takılan takımın istasyonu hazır seçilir).','Kime: tüm takımlar ya da tek takım.','Yayınla ve bildir.'],'İstasyonun konumu kayıtlı değilse düğme kapalıdır. Yayınlanan istasyonda hız bonusu verilmez.'],
  ayar:['Oyun ayarları','Katılım ve kurallar.',['Katılım şifresi: yenile düğmesi yeni şifre üretir.','Katılım açık: kapalıyken doğru şifreyle de girilemez.','Mesafe kontrolü: QR yalnızca 50 m yakında kabul edilir.','Takım başına en fazla kişi.','Pano bağlantısını paylaş, oyunu başlat ya da bitir.'],'Şifreyi değiştirmek içerideki oyuncuları çıkarmaz.'],
- yoyun:['Yönetici ana ekranı','Yönetici girince Oyunlarım ekranının üstünde altın renkli Öğretmenler kartı görünür.',['Kırmızı sayı: bekleyen başvuru.','Karta dokun: öğretmen onay ekranı.','Yönetici her öğretmenin oyununu da düzenleyebilir.'],'Yönetici tek kişidir (proje sahibi). Yönetici hesabı uygulamadan silinemez.'],
+ yoyun:['Yönetici ana ekranı','Yönetici girince Oyunlarım ekranının üstünde altın renkli Öğretmenler kartı görünür.',['Kırmızı sayı: bekleyen başvuru.','Karta dokun: öğretmen onay ekranı.','İletişim bilgileri kartı: okul adı, adres, telefon, e-posta (her yerde görünenler).','Yönetici her öğretmenin oyununu da düzenleyebilir.'],'Yönetici tek kişidir (proje sahibi). Yönetici hesabı uygulamadan silinemez.'],
  ogretmenler:['Öğretmen onayı','Öğretmenlere yetki verme ve geri alma.',['Bekleyen başvurular: Onayla ya da Reddet.','Onaylı öğretmenler: Yetkiyi kaldır (iki dokunuş).','Kendi yetkinizi kaldıramazsınız.'],'Onaylanan öğretmen hemen giriş yapabilir; yetkisi kaldırılan bir daha giremez.']};
 
 /* ---------- yardımcılar ---------- */

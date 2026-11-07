@@ -60,7 +60,7 @@ a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
           Uygulamayı indir
         </a>
-        <div class="meta"><span>Sürüm <b>1.0.1</b></span><span>Boyut <b>25 MB</b></span><span>Android <b>8.0</b> ve üzeri</span></div>
+        <div class="meta"><span>Sürüm <b>1.1.0</b></span><span>Boyut <b>25 MB</b></span><span>Android <b>8.0</b> ve üzeri</span></div>
       </div>
       <div>
         <h2>Nasıl kurulur?</h2>
@@ -71,7 +71,7 @@ a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
           <li><div><b>"Yükle"ye, sonra "Aç"a dokunun.</b><span>Öğrenciler öğretmenin söylediği şifreyle, öğretmenler "Öğretmen girişi"nden Google hesabıyla girer.</span></div></li>
         </ol>
       </div>
-      <p class="note">Yeni sürüm çıktığında bu sayfadan tekrar indirip kurmanız yeterli; oyun verileriniz kaybolmaz. Uygulama yalnızca Android telefon ve tabletlerde çalışır.</p>
+      <p class="note">1.1.0 ve sonraki sürümler yeni sürüm çıkınca uygulamanın içinde "Güncelle" şeridi gösterir; tek dokunuşla güncellenir, verileriniz kaybolmaz. Uygulama yalnızca Android telefon ve tabletlerde çalışır.</p>
     </div>
 
     <div style="display:grid;gap:20px">
@@ -88,7 +88,23 @@ a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
       </div>
     </div>
   </section>
+  <section class="card" style="display:grid;gap:6px">
+    <h2 style="margin:0">İletişim</h2>
+    <b data-ilt="okulAdi">Alaşehir Bilim ve Sanat Merkezi</b>
+    <span class="sub" style="margin:0"><span data-ilt="telefon">0236 653 88 98</span> · <a data-ilt="eposta" style="color:var(--brass)" href="mailto:nusretsataratolye@gmail.com">nusretsataratolye@gmail.com</a></span>
+    <span class="sub" style="margin:0;font-size:14px" data-ilt="adres">İstasyon Mah. İzmir Salihli Yolu Cad. No 153 İç Kapı No 1, Alaşehir / Manisa</span>
+  </section>
 </main>
+<script>
+(function(){
+  var V={okulAdi:'Alaşehir Bilim ve Sanat Merkezi',adres:'İstasyon Mah. İzmir Salihli Yolu Cad. No 153 İç Kapı No 1, Alaşehir / Manisa',telefon:'0236 653 88 98',eposta:'nusretsataratolye@gmail.com'};
+  function yaz(v){document.querySelectorAll('[data-ilt]').forEach(function(e){var k=e.getAttribute('data-ilt');if(!v[k])return;
+    if(k==='eposta'&&e.tagName==='A'){e.href='mailto:'+v[k];}e.textContent=v[k];});}
+  yaz(V);
+  fetch('https://firestore.googleapis.com/v1/projects/hazine-avi-alasehir/databases/(default)/documents/ayarlar/genel?key=AIzaSyDzp8pvzBqItbJhLimwcvC4yoymYAtAcTg')
+    .then(function(r){return r.json()}).then(function(d){if(!d.fields)return;var v={};for(var k in d.fields)v[k]=d.fields[k].stringValue;yaz(v);}).catch(function(){});
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 new QRCode(document.getElementById('kod'),{text:'https://nusret1.github.io/hazine-avi-harita/indir.html',width:172,height:172,colorDark:'#1B1405',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
